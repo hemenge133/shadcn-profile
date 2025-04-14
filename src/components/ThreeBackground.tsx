@@ -3,9 +3,10 @@
 import { useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
+import { Points } from 'three';
 
 // Generate a random position within a sphere
-function randomPointInSphere(radius) {
+function randomPointInSphere(radius: number) {
   const u = Math.random();
   const v = Math.random();
   const theta = u * 2.0 * Math.PI;
@@ -24,7 +25,7 @@ function randomPointInSphere(radius) {
 }
 
 function ParticleSystem() {
-  const pointsRef = useRef();
+  const pointsRef = useRef<Points>(null!);
   const particleCount = 200;
 
   // Create particles with positions
@@ -61,7 +62,7 @@ function ParticleSystem() {
 
   // Handle mouse movement
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = -(e.clientY / window.innerHeight) * 2 + 1;
 
@@ -113,7 +114,8 @@ function ParticleSystem() {
   });
 
   return (
-    <animated.group position={spring.position} rotation={spring.rotation}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <animated.group position={spring.position as any} rotation={spring.rotation as any}>
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -143,7 +145,8 @@ function ParticleSystem() {
 }
 
 // Utility function for throttling events
-function throttle<T extends (...args: unknown[]) => unknown>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {

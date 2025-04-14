@@ -79,11 +79,11 @@ const Projects = () => {
             >
               <div
                 className="block cursor-pointer flex-grow flex flex-col"
-                onClick={() => handleProjectClick(project.id)}
+                onClick={() => handleProjectClick(project.id.toString())}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    handleProjectClick(project.id);
+                    handleProjectClick(project.id.toString());
                   }
                 }}
                 tabIndex={0}

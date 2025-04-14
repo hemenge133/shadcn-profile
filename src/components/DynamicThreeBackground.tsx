@@ -22,7 +22,7 @@ export default function DynamicThreeBackground() {
     setIsReducedMotion(mediaQuery.matches);
 
     // Listen for changes
-    const handleChange = (e) => setIsReducedMotion(e.matches);
+    const handleChange = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
     mediaQuery.addEventListener('change', handleChange);
 
     return () => mediaQuery.removeEventListener('change', handleChange);
