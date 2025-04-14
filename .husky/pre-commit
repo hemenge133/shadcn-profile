@@ -1,0 +1,11 @@
+echo "Running pre-commit hook: lint-staged..."
+npx lint-staged
+
+exitCode=$?
+if [ $exitCode -ne 0 ]; then
+  echo "Pre-commit hook failed (lint-staged). Commit aborted."
+  exit $exitCode
+fi
+
+echo "Pre-commit hook passed."
+exit 0

@@ -1,0 +1,54 @@
+# Task ID: 12
+# Title: Implement E2E Testing with Playwright for Next.js Portfolio
+# Status: in-progress
+# Dependencies: None
+# Priority: medium
+# Description: Set up Playwright for end-to-end testing and implement test suites covering critical user flows in the portfolio website.
+# Details:
+1. Install Playwright and configure it for the Next.js project:
+   - Run `npm init playwright@latest` to set up Playwright
+   - Configure Playwright to work with Next.js in the `playwright.config.ts` file
+   - Set up appropriate viewport sizes for desktop, tablet, and mobile testing
+
+2. Create the following test suites:
+   - Navigation tests: Verify all header links navigate to correct sections
+   - Projects section tests: Test filtering functionality and project card display
+   - Theme switching tests: Verify theme toggle works and persists between sessions
+   - Responsive design tests: Check layout integrity across different viewport sizes
+   - Content verification tests: Ensure all major sections (Hero, Skills, About, Contact) display correct content
+
+3. Implement test utilities:
+   - Create helper functions for common operations
+   - Set up test fixtures for consistent testing environments
+   - Implement screenshot comparison for visual regression testing
+
+4. Integrate with development workflow:
+   - Add npm scripts for running tests locally
+   - Configure tests to run in CI pipeline
+   - Set up reporting for test results
+
+5. Document testing approach and how to run/maintain tests in README.md
+
+# Test Strategy:
+Verify implementation by:
+
+1. Running the full test suite with `npm run test:e2e` and confirming all tests pass
+
+2. Validate specific test coverage:
+   - Check that all critical user flows are covered in test files
+   - Verify tests run in all specified browsers (Chrome, Firefox, Safari)
+   - Confirm tests run at different viewport sizes
+
+3. Test the CI integration:
+   - Push a commit that should pass all tests
+   - Push a commit with an intentional UI change that should fail tests
+   - Verify test reports are generated correctly
+
+4. Manual verification:
+   - Review test code for best practices and maintainability
+   - Ensure tests are not flaky by running the suite multiple times
+   - Check that visual comparison tests have appropriate tolerance settings
+
+5. Documentation check:
+   - Verify README includes clear instructions for running and maintaining tests
+   - Confirm all custom test utilities are documented

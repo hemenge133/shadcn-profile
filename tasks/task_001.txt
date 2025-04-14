@@ -1,0 +1,18 @@
+# Task ID: 1
+# Title: Set Up Next.js Project with TypeScript and Tailwind CSS
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Initialize a new Next.js project with TypeScript and Tailwind CSS as the foundation for the portfolio website.
+# Details:
+1. Create a new Next.js project using `create-next-app`
+2. Configure TypeScript for type safety
+3. Set up Tailwind CSS for styling
+4. Create the basic project structure (pages, components, styles, etc.)
+5. Configure environment variables
+6. Set up a basic layout component with header and footer
+7. Implement responsive viewport settings
+8. Create a basic routing structure for the portfolio sections
+
+# Test Strategy:
+Verify the project builds successfully without errors. Test the basic navigation and ensure the responsive layout works on different screen sizes.

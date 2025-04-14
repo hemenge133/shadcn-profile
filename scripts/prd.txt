@@ -1,0 +1,149 @@
+<context>
+# Overview  
+This project is a modern personal portfolio website built with Next.js, React, and Tailwind CSS. It showcases the developer's skills, projects, and professional experience in a clean, responsive, and interactive manner. The portfolio will serve as both a resume and a demonstration of front-end development abilities.
+
+# Core Features  
+## Personal Introduction
+- Concise introduction section with name, title, and brief professional summary
+- Professional headshot/avatar
+- Contact information and social media links
+
+## Project Showcase
+- Featured projects with descriptions, technologies used, and links
+- Project screenshots or demos
+- Filter/sort capabilities by technology or project type
+
+## Skills & Experience
+- Visual representation of technical skills (skill bars, tags, etc.)
+- Work history and education timeline
+- Downloadable resume
+
+## Contact Form
+- Interactive form for visitors to send messages
+- Form validation and submission confirmation
+- Protection against spam (e.g., CAPTCHA)
+
+## Blog/Articles (Optional)
+- Simple blog functionality to share technical articles and thoughts
+- Categories and tags for organization
+
+# User Experience  
+## User Personas
+- Potential employers/recruiters looking to evaluate skills and experience
+- Fellow developers seeking collaboration opportunities
+- Clients looking for a developer for their projects
+
+## Key User Flows
+- Homepage to project details to contact form
+- Direct navigation to specific sections (skills, experience, blog)
+- Mobile-friendly experience with optimized layouts for different devices
+
+## UI/UX Considerations
+- Dark/Light mode toggle
+- Smooth animations and transitions
+- Accessibility compliance
+- Fast loading times and performance optimization
+</context>
+<PRD>
+# Technical Architecture  
+## System Components
+- Next.js App Router for routing and server components
+- React components for UI building blocks
+- Tailwind CSS for styling
+- TypeScript for type safety and better developer experience
+- Form handling with React Hook Form
+- State management with React Context API or Zustand (for more complex state)
+
+## Data Models
+- Project: id, title, description, technologies, image, links, featured status
+- Experience: company, role, duration, description, technologies
+- Skill: name, proficiency, category
+- Blog Post: title, content, date, tags, excerpt
+- Contact Message: name, email, message, date
+
+## APIs and Integrations
+- Email service integration for contact form (e.g., SendGrid, Nodemailer)
+- GitHub API integration for showcasing repositories
+- Content management via local Markdown files or a headless CMS
+
+## Infrastructure Requirements
+- Vercel deployment for hosting
+- GitHub for version control
+- Image optimization with Next.js Image component
+- Environment variables for API keys and sensitive information
+
+# Development Roadmap  
+## MVP Requirements
+1. Responsive landing page with personal introduction
+2. Navigation system with smooth scrolling to sections
+3. Projects section with at least 3 featured projects
+4. Skills and experience section
+5. Basic contact form
+6. Dark/light mode toggle
+7. Deployment to Vercel
+
+## Future Enhancements
+1. Blog/articles section with Markdown support
+2. Advanced project filtering and search
+3. Animated page transitions
+4. Interactive skill visualization
+5. Multi-language support
+6. Analytics integration
+7. Testimonials section
+8. GitHub integration to automatically display repositories
+
+# Logical Dependency Chain
+1. Setup and Configuration
+   - Initialize Next.js project with TypeScript
+   - Configure Tailwind CSS
+   - Set up project structure and layouts
+
+2. Core Components
+   - Header/navigation component
+   - Footer component
+   - Layout wrapper
+   - Theme toggle
+
+3. Main Sections Implementation
+   - Hero/introduction section
+   - Projects grid and project card components
+   - Skills and experience section
+   - Contact form with validation
+
+4. Styling and Responsiveness
+   - Implement responsive design for all screen sizes
+   - Apply consistent styling and animations
+   - Implement dark/light mode
+
+5. Deployment and Optimization
+   - Setup Vercel deployment
+   - Optimize images and assets
+   - Implement SEO best practices
+
+# Risks and Mitigations  
+## Technical Challenges
+- Performance optimization: Use Next.js image optimization, code splitting, and lazy loading
+- Form handling and security: Implement server-side validation and rate limiting
+- Browser compatibility: Test across multiple browsers and implement polyfills if necessary
+
+## MVP Scope
+- Focus on core sections first (intro, projects, skills, contact)
+- Implement a minimal viable design that can be enhanced later
+- Use placeholder content initially to speed up development
+
+## Resource Constraints
+- Utilize pre-built components when appropriate
+- Leverage Tailwind CSS for faster styling
+- Implement features incrementally to maintain momentum
+
+# Appendix  
+## Design Inspiration
+- Minimalist portfolio websites with focus on content
+- Modern UI trends including glassmorphism, subtle animations
+- Accessible color schemes that work in both dark and light modes
+
+## Technical References
+- Next.js documentation
+- Tailwind CSS best practices
+- WCAG accessibility guidelines
+</PRD> 

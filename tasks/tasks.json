@@ -1,0 +1,197 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Set Up Next.js Project with TypeScript and Tailwind CSS",
+      "description": "Initialize a new Next.js project with TypeScript and Tailwind CSS as the foundation for the portfolio website.",
+      "status": "done",
+      "dependencies": [],
+      "priority": "high",
+      "details": "1. Create a new Next.js project using `create-next-app`\n2. Configure TypeScript for type safety\n3. Set up Tailwind CSS for styling\n4. Create the basic project structure (pages, components, styles, etc.)\n5. Configure environment variables\n6. Set up a basic layout component with header and footer\n7. Implement responsive viewport settings\n8. Create a basic routing structure for the portfolio sections",
+      "testStrategy": "Verify the project builds successfully without errors. Test the basic navigation and ensure the responsive layout works on different screen sizes."
+    },
+    {
+      "id": 2,
+      "title": "Integrate shadcn/ui Component Library",
+      "description": "Set up and configure shadcn/ui components with a focus on embracing the shadcn design language for a modern portfolio look.",
+      "status": "done",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "1. Install shadcn/ui CLI and dependencies\n2. Configure the component installation directory\n3. Set up the theme using shadcn's design system and principles\n4. Implement both light and dark mode themes\n5. Install essential components (Button, Card, Dialog, etc.)\n6. Create a component showcase page for reference\n7. Set up global styling with Tailwind CSS variables aligned with shadcn's design language\n8. Document component usage patterns for project consistency",
+      "testStrategy": "Verify components render correctly in both light and dark modes. Test component accessibility and ensure consistent styling across the application that follows shadcn's design system."
+    },
+    {
+      "id": 3,
+      "title": "Implement Code Quality Tools and Pre-commit Hooks",
+      "description": "Set up code formatting tools and pre-commit hooks to maintain code quality throughout development.",
+      "status": "done",
+      "dependencies": [
+        1
+      ],
+      "priority": "medium",
+      "details": "1. Install ESLint and configure rules\n2. Set up Prettier for code formatting\n3. Install and configure husky for Git hooks\n4. Set up lint-staged to run formatting on modified files\n5. Configure pre-commit hooks to run linting and formatting\n6. Add npm scripts for manual formatting and linting\n7. Create documentation on code style guidelines\n8. Ensure TypeScript strict mode is properly configured",
+      "testStrategy": "Make an unformatted code change and attempt to commit. Verify the pre-commit hook formats the code before allowing the commit. Run linting manually to ensure rules are properly enforced."
+    },
+    {
+      "id": 4,
+      "title": "Migrate Content from Original Website",
+      "description": "Extract and organize content from haydenmenge.com to incorporate into the new portfolio design.",
+      "status": "done",
+      "dependencies": [
+        2
+      ],
+      "priority": "high",
+      "details": "1. Extract projects, skills, experience, and other relevant content from haydenmenge.com\n2. Organize content into structured data formats (JSON/TypeScript interfaces)\n3. Identify and extract reusable assets (images, logos, etc.)\n4. Update and refresh content as needed\n5. Create a content schema for consistent data structure\n6. Implement content in appropriate components using shadcn/ui design patterns\n7. Ensure all content is properly formatted and optimized\n8. Create a content management strategy for future updates",
+      "testStrategy": "Verify all content from the original site is properly migrated and displayed correctly in the new design. Check for any missing elements or formatting issues."
+    },
+    {
+      "id": 5,
+      "title": "Implement Three.js Background Animation",
+      "description": "Create a subtle, visually appealing Three.js background animation using react-three/fiber and react-three/drei with spring-based easing effects, and implement complementary UI animations for portfolio sections using framer-motion.",
+      "status": "pending",
+      "dependencies": [
+        10
+      ],
+      "priority": "medium",
+      "details": "1. Set up a Canvas component from react-three/fiber\n2. Create a low-polygon geometric scene (floating particles or abstract shapes)\n3. Implement spring-based easing animations using @react-spring/three\n4. Add mouse/scroll interaction with smooth transitions\n5. Optimize performance with instanced meshes and proper object disposal\n6. Add configuration options for animation parameters\n7. Implement reduced motion settings for accessibility\n8. Create responsive behavior for different screen sizes\n9. Add fallback static background for browsers without WebGL\n10. Ensure proper z-indexing with page content\n11. Implement framer-motion for UI animations across portfolio sections:\n    a. Create fade-in animations on scroll for section content\n    b. Add hover effects for interactive elements\n    c. Design smooth transitions between sections\n    d. Implement staggered animations for list items in Skills section\n    e. Create subtle animations for Project cards\n12. Ensure UI animations complement the Three.js background:\n    a. Use consistent timing and easing functions\n    b. Create visual harmony between background and foreground animations\n    c. Avoid conflicting or competing animations\n13. Apply the same accessibility considerations to UI animations:\n    a. Honor reduced motion preferences\n    b. Ensure animations don't interfere with usability\n14. Optimize animation performance across both systems",
+      "testStrategy": "Test animation performance across browsers and devices. Verify smooth transitions and 60fps rendering. Check accessibility with reduced motion preferences and ensure the animation doesn't interfere with content interaction. Test UI animations for consistency with the Three.js background. Verify that animations enhance rather than distract from the user experience. Test all animations with both mouse and touch interactions."
+    },
+    {
+      "id": 6,
+      "title": "Develop Core Portfolio Sections",
+      "description": "Create the main portfolio sections using shadcn/ui components and the migrated content.",
+      "status": "done",
+      "dependencies": [
+        2,
+        4
+      ],
+      "priority": "high",
+      "details": "1. Implement a compelling hero/landing section\n2. Create a projects showcase section with filtering capabilities\n3. Develop a skills and technologies section\n4. Build an about/experience section\n5. Implement a contact form or contact information section\n6. Create navigation between sections\n7. Ensure consistent styling using shadcn/ui components\n8. Implement responsive layouts for all sections\n9. Add smooth scrolling between sections\n10. Optimize component rendering performance",
+      "testStrategy": "Test each section for proper content display, responsive behavior, and interaction. Verify navigation works correctly and sections render appropriately on different devices and screen sizes.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Hero/Landing Section with Navigation",
+          "description": "Create a compelling hero section with navigation that allows users to smoothly scroll to other sections of the portfolio. [Updated: 4/13/2025]",
+          "dependencies": [],
+          "details": "Implementation steps:\n1. Create a Hero component using shadcn/ui Card and other components\n2. Design a visually appealing layout with your name, title, and brief introduction\n3. Add a professional photo/avatar using the Image component\n4. Implement a navigation bar with links to other sections\n5. Set up smooth scrolling functionality using the scroll-behavior CSS property or a library like react-scroll\n6. Ensure the hero section is fully responsive using Tailwind's responsive classes\n7. Add subtle animations for improved UX\n\nTesting approach:\n- Verify the hero section renders correctly on different screen sizes\n- Test navigation links to ensure they scroll to the correct sections\n- Check that all animations and transitions work as expected\n\n<info added on 2025-04-14T00:29:25.712Z>\nAdditional testing approach:\n- Check browser console logs and errors to ensure no unexpected messages or issues are present after rendering and interaction.\n</info added on 2025-04-14T00:29:25.712Z>",
+          "status": "done",
+          "parentTaskId": 6
+        },
+        {
+          "id": 2,
+          "title": "Build Projects Showcase Section with Filtering",
+          "description": "Develop a projects section that displays your work with filtering capabilities to allow users to sort by technology or project type.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implementation steps:\n1. Create a Projects component with a grid layout using shadcn/ui Card components\n2. Design project cards with thumbnails, titles, descriptions, and technology tags\n3. Implement filtering functionality using shadcn/ui Tabs or Select components\n4. Add state management to handle filter selections\n5. Create smooth transitions when filtering changes using CSS transitions\n6. Ensure each project card has a link to view more details or visit the live project\n7. Make the grid responsive for different screen sizes\n\nTesting approach:\n- Test filter functionality to ensure it correctly displays matching projects\n- Verify project cards display all information correctly\n- Check responsive behavior on various screen sizes\n- Ensure all links work correctly",
+          "status": "done",
+          "parentTaskId": 6
+        },
+        {
+          "id": 3,
+          "title": "Develop Skills and Technologies Section",
+          "description": "Create a visually appealing section to showcase your technical skills and technologies you're proficient with.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implementation steps:\n1. Design a Skills component using shadcn/ui components like Card, Badge, or Progress\n2. Organize skills into categories (e.g., Frontend, Backend, Tools)\n3. Use visual elements like progress bars, badges, or icons to represent skill levels\n4. Implement a responsive grid or flex layout for different screen sizes\n5. Add subtle hover effects or animations to enhance user experience\n6. Consider implementing a tabbed interface for different skill categories\n7. Ensure consistent styling with other portfolio sections\n\nTesting approach:\n- Verify all skills and technologies display correctly\n- Test responsive layout on different screen sizes\n- Check that any animations or hover effects work properly\n- Ensure consistent styling with other sections",
+          "status": "done",
+          "parentTaskId": 6
+        },
+        {
+          "id": 4,
+          "title": "Create About/Experience Section",
+          "description": "Build a section that tells your professional story, including work experience, education, and personal background.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implementation steps:\n1. Create an About component using shadcn/ui Card, Accordion, or Tabs components\n2. Design a timeline or card-based layout for work experience entries\n3. Include education information with relevant details\n4. Add a personal bio that highlights your unique qualities and career goals\n5. Incorporate any relevant certifications or achievements\n6. Ensure the layout is responsive and readable on all devices\n7. Consider adding downloadable resume functionality\n\nTesting approach:\n- Verify all experience and education entries display correctly\n- Test timeline or card interactions if implemented\n- Check responsive behavior on different screen sizes\n- Ensure any download links work correctly",
+          "status": "done",
+          "parentTaskId": 6
+        },
+        {
+          "id": 5,
+          "title": "Implement Contact Section and Performance Optimization",
+          "description": "Create a contact section with a form or contact information, and optimize the overall performance of all portfolio sections.",
+          "dependencies": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "details": "Implementation steps:\n1. Build a Contact component using shadcn/ui Form components\n2. Implement form validation for contact inputs\n3. Set up form submission handling (to email service or backend)\n4. Add alternative contact methods (social links, email)\n5. Optimize component rendering across all sections:\n   - Implement code splitting for larger components\n   - Use React.memo for components that don't need frequent re-renders\n   - Optimize images with next/image\n   - Lazy load off-screen content\n6. Test and fix any performance bottlenecks\n7. Ensure consistent styling and responsive behavior\n\nTesting approach:\n- Test form validation and submission\n- Verify all contact links work correctly\n- Measure and compare performance metrics before and after optimization\n- Test the complete portfolio for smooth scrolling and transitions\n- Verify responsive behavior across all sections",
+          "status": "done",
+          "parentTaskId": 6
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Add Dark Mode and Theme Switching",
+      "description": "Implement a theme switching mechanism for toggling between light and dark modes.",
+      "status": "done",
+      "dependencies": [
+        2,
+        6
+      ],
+      "priority": "low",
+      "details": "1. Set up theme context using React context API\n2. Create a theme toggle component using shadcn/ui\n3. Implement theme persistence using localStorage\n4. Ensure all components respond correctly to theme changes\n5. Add smooth transition animations between themes\n6. Respect user system preferences for initial theme\n7. Test theme consistency across all pages and components\n8. Ensure proper contrast ratios for accessibility in both themes\n9. Update Three.js background to respond to theme changes\n10. Document theme customization options",
+      "testStrategy": "Test theme switching functionality and verify all components render correctly in both themes. Check theme persistence across page refreshes and ensure system preference detection works properly."
+    },
+    {
+      "id": 9,
+      "title": "Optimize Performance and Accessibility",
+      "description": "Improve site performance, SEO, and accessibility to ensure a high-quality user experience.",
+      "status": "pending",
+      "dependencies": [
+        6,
+        12
+      ],
+      "priority": "medium",
+      "details": "1. Implement image optimization using Next.js Image component\n2. Add proper meta tags for SEO\n3. Implement lazy loading for off-screen content\n4. Add proper semantic HTML structure\n5. Ensure keyboard navigation works throughout the site\n6. Add ARIA attributes where necessary\n7. Implement proper heading hierarchy\n8. Test and fix any accessibility issues\n9. Optimize bundle size and code splitting\n10. Add page transitions and loading states",
+      "testStrategy": "Run Lighthouse audits to measure performance, accessibility, SEO, and best practices. Test with screen readers and keyboard navigation. Verify lazy loading works correctly and bundle sizes are optimized."
+    },
+    {
+      "id": 10,
+      "title": "Set Up Firebase Hosting and Deployment",
+      "description": "Configure and deploy the Next.js portfolio website to AWS Amplify Hosting with a CI/CD pipeline and integrate with existing API Gateway.",
+      "status": "in-progress",
+      "dependencies": [],
+      "priority": "high",
+      "details": "1. Create an AWS account if not already available\n2. Set up an AWS Amplify project in the AWS Management Console\n3. Connect the GitHub repository to Amplify for continuous deployment\n4. Configure build settings and output directory in Amplify console for Next.js application\n5. Set up custom domain using Route 53 or external domain provider\n6. Configure branch-based deployments for staging and production environments\n7. Set up AWS Amplify CI/CD pipeline for automated builds and deployments\n8. Integrate Amplify deployment with existing API Gateway:\n   a. Configure API Gateway to route requests to the Amplify app URL\n   b. Set up custom domain mapping in API Gateway if needed\n   c. Disable any previous Lambda integrations associated with the API Gateway endpoint\n9. Implement AWS Pinpoint for visitor analytics and tracking\n10. Configure caching strategies and CDN settings for static assets\n11. Test the integration between API Gateway and Amplify hosting\n12. Document the AWS Amplify deployment process and API Gateway integration",
+      "testStrategy": "Deploy to AWS Amplify and verify all pages, assets, and functionality work correctly in production. Test on multiple devices and browsers. Verify the Amplify CI/CD pipeline correctly deploys changes when code is pushed to the main branch. Confirm custom domain configuration and SSL certificate are working properly. Test API Gateway integration by making requests to endpoints and verifying they correctly route to the Amplify-hosted application. Ensure any previous Lambda integrations are properly disabled and not interfering with the new setup. Test analytics data collection through AWS Pinpoint. Verify end-to-end functionality of the application through the API Gateway to Amplify hosting path."
+    },
+    {
+      "id": 11,
+      "title": "Fix Active Section Indicator Styling in Sticky Header",
+      "description": "Resolve styling issues with the active section indicator in the sticky header where the correct state logic exists but the visual styles (bg-primary, text-primary-foreground) are not being applied correctly.",
+      "details": "The Header.tsx component correctly identifies the active section, but the visual styling for the active button is not rendering properly. The developer should:\n\n1. Examine the current CSS implementation in Header.tsx for the active section button\n2. Check for CSS specificity issues where other styles might be overriding the active state styles\n3. Verify that Tailwind classes (bg-primary, text-primary-foreground) are being properly processed and included in the final CSS output\n4. Look for potential class conflicts or incorrect class application in the component hierarchy\n5. Ensure that conditional class application logic is working correctly (e.g., className={`${isActive ? 'bg-primary text-primary-foreground' : ''}`})\n6. Check if there are any parent elements with styles that might be interfering with the active button styles\n7. Verify that the Tailwind configuration includes the proper theme settings for primary colors\n8. Consider using more specific selectors or !important flags as a last resort if specificity issues can't be resolved otherwise\n9. Update the styling implementation to ensure the active section is visually distinct with the intended background and text colors",
+      "testStrategy": "To verify the fix has been properly implemented:\n\n1. Visual inspection: Navigate through different sections of the site and confirm the active section in the sticky header is visually highlighted with the correct background color (bg-primary) and text color (text-primary-foreground)\n2. Cross-browser testing: Verify the styling works correctly across Chrome, Firefox, Safari, and Edge\n3. Responsive testing: Check that the active indicator displays correctly at various screen sizes (mobile, tablet, desktop)\n4. State transition testing: Scroll between different sections and verify the active indicator smoothly transitions between buttons\n5. Inspect element verification: Use browser dev tools to confirm the correct classes are being applied to the active element\n6. CSS specificity check: Verify through dev tools that no other styles are overriding the active state styles\n7. Regression testing: Ensure fixing this issue hasn't affected other header functionality or styling\n8. Dark/light mode testing: If the site supports different themes, verify the active indicator works correctly in all theme modes",
+      "status": "pending",
+      "dependencies": [
+        10
+      ],
+      "priority": "medium"
+    },
+    {
+      "id": 12,
+      "title": "Implement E2E Testing with Playwright for Next.js Portfolio",
+      "description": "Set up Playwright for end-to-end testing and implement test suites covering critical user flows in the portfolio website.",
+      "details": "1. Install Playwright and configure it for the Next.js project:\n   - Run `npm init playwright@latest` to set up Playwright\n   - Configure Playwright to work with Next.js in the `playwright.config.ts` file\n   - Set up appropriate viewport sizes for desktop, tablet, and mobile testing\n\n2. Create the following test suites:\n   - Navigation tests: Verify all header links navigate to correct sections\n   - Projects section tests: Test filtering functionality and project card display\n   - Theme switching tests: Verify theme toggle works and persists between sessions\n   - Responsive design tests: Check layout integrity across different viewport sizes\n   - Content verification tests: Ensure all major sections (Hero, Skills, About, Contact) display correct content\n\n3. Implement test utilities:\n   - Create helper functions for common operations\n   - Set up test fixtures for consistent testing environments\n   - Implement screenshot comparison for visual regression testing\n\n4. Integrate with development workflow:\n   - Add npm scripts for running tests locally\n   - Configure tests to run in CI pipeline\n   - Set up reporting for test results\n\n5. Document testing approach and how to run/maintain tests in README.md",
+      "testStrategy": "Verify implementation by:\n\n1. Running the full test suite with `npm run test:e2e` and confirming all tests pass\n\n2. Validate specific test coverage:\n   - Check that all critical user flows are covered in test files\n   - Verify tests run in all specified browsers (Chrome, Firefox, Safari)\n   - Confirm tests run at different viewport sizes\n\n3. Test the CI integration:\n   - Push a commit that should pass all tests\n   - Push a commit with an intentional UI change that should fail tests\n   - Verify test reports are generated correctly\n\n4. Manual verification:\n   - Review test code for best practices and maintainability\n   - Ensure tests are not flaky by running the suite multiple times\n   - Check that visual comparison tests have appropriate tolerance settings\n\n5. Documentation check:\n   - Verify README includes clear instructions for running and maintaining tests\n   - Confirm all custom test utilities are documented",
+      "status": "in-progress",
+      "dependencies": [],
+      "priority": "medium"
+    }
+  ],
+  "metadata": {
+    "projectName": "Portfolio Website Redesign",
+    "totalTasks": 12,
+    "sourceFile": "C:\\Users\\hayde\\CursorStuff\\portfolio\\scripts\\temp_prd.txt",
+    "generatedAt": "2023-11-15"
+  }
+}

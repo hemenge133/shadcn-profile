@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 240 10% 20%;
+    --card: 0 0% 99%;
+    --card-foreground: 240 10% 20%;
+    --popover: 0 0% 99%;
+    --popover-foreground: 240 10% 20%;
+    --primary: 240 5.9% 25%;
+    --primary-foreground: 0 0% 97%;
+    --secondary: 240 4.8% 94%;
+    --secondary-foreground: 240 5.9% 25%;
+    --muted: 240 4.8% 94%;
+    --muted-foreground: 240 3.8% 50%;
+    --accent: 240 4.8% 94%;
+    --accent-foreground: 240 5.9% 25%;
+    --destructive: 0 84.2% 65%;
+    --destructive-foreground: 0 0% 97%;
+    --border: 240 5.9% 88%;
+    --input: 240 5.9% 88%;
+    --ring: 240 5.9% 25%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 14%;
+    --foreground: 0 0% 85%;
+    --card: 240 10% 16%;
+    --card-foreground: 0 0% 85%;
+    --popover: 240 10% 16%;
+    --popover-foreground: 0 0% 85%;
+    --primary: 0 0% 85%;
+    --primary-foreground: 240 5.9% 20%;
+    --secondary: 240 3.7% 25%;
+    --secondary-foreground: 0 0% 85%;
+    --muted: 240 3.7% 25%;
+    --muted-foreground: 240 5% 75%;
+    --accent: 240 3.7% 25%;
+    --accent-foreground: 0 0% 85%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 85%;
+    --border: 240 3.7% 25%;
+    --input: 240 3.7% 25%;
+    --ring: 240 4.9% 75%;
+  }
+
+  * {
+    @apply border-solid border-0;
+  }
+
+  body {
+    font-family: var(--font-geist-sans);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

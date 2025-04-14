@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Screen View MCP",
+    "description": "TypeScript project using Model Context Protocol (MCP) SDK that enables AI assistants to capture and analyze screenshots using Claude Vision API.",
+    "longDescription": "Detailed description about the Screen View MCP project, covering its architecture, challenges faced, and solutions implemented. It leverages the Claude Vision API for image analysis within the Multi-Capability Platform (MCP) ecosystem.",
+    "tags": ["TypeScript", "MCP SDK", "Claude Vision", "AI", "Node.js"],
+    "imageUrl": "https://picsum.photos/seed/screen-view-mcp/600/400", 
+    "images": [
+      "https://picsum.photos/seed/screen-view-mcp-1/600/400",
+      "https://picsum.photos/seed/screen-view-mcp-2/600/400"
+    ],
+    "sourceUrl": "https://github.com/hemenge133/screen-view-mcp",
+    "liveUrl": null,
+    "categories": ["Tooling", "AI/ML"]
+  },
+  {
+    "id": 2,
+    "title": "Latent",
+    "description": "Research project exploring latent space cross-attention mechanisms in transformers.",
+    "longDescription": "In-depth exploration of latent space representations and cross-attention in transformer models. This research involved implementing custom PyTorch modules and experimenting with various datasets.",
+    "tags": ["Python", "PyTorch", "AI/ML", "Research", "Transformers"],
+    "imageUrl": "https://picsum.photos/seed/latent/600/400",
+    "images": [
+      "https://picsum.photos/seed/latent-1/600/400",
+      "https://picsum.photos/seed/latent-2/600/400"
+    ], 
+    "sourceUrl": "https://github.com/hemenge133/latent",
+    "liveUrl": null,
+    "categories": ["AI/ML"]
+  },
+  {
+    "id": 3,
+    "title": "ConverseGPT",
+    "description": "GPT-based chat app and infrastructure-as-code backend.",
+    "longDescription": "A full-stack application featuring a React frontend and a Python backend powered by GPT. The infrastructure was defined using AWS CDK (IaC), ensuring scalability and reproducibility.",
+    "tags": ["Python", "React", "AWS", "IaC", "GPT", "Full-Stack"],
+    "imageUrl": "https://picsum.photos/seed/converse-gpt/600/400",
+    "images": [
+        "https://picsum.photos/seed/converse-gpt-1/600/400",
+        "https://picsum.photos/seed/converse-gpt-2/600/400"
+    ],
+    "sourceUrl": "https://github.com/hemenge133/converseGPT",
+    "liveUrl": null,
+    "categories": ["Web"]
+  }
+] 

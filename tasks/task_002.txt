@@ -1,0 +1,18 @@
+# Task ID: 2
+# Title: Integrate shadcn/ui Component Library
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Set up and configure shadcn/ui components with a focus on embracing the shadcn design language for a modern portfolio look.
+# Details:
+1. Install shadcn/ui CLI and dependencies
+2. Configure the component installation directory
+3. Set up the theme using shadcn's design system and principles
+4. Implement both light and dark mode themes
+5. Install essential components (Button, Card, Dialog, etc.)
+6. Create a component showcase page for reference
+7. Set up global styling with Tailwind CSS variables aligned with shadcn's design language
+8. Document component usage patterns for project consistency
+
+# Test Strategy:
+Verify components render correctly in both light and dark modes. Test component accessibility and ensure consistent styling across the application that follows shadcn's design system.

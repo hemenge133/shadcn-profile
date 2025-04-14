@@ -1,0 +1,25 @@
+# Task ID: 10
+# Title: Set Up Firebase Hosting and Deployment
+# Status: in-progress
+# Dependencies: None
+# Priority: high
+# Description: Configure and deploy the Next.js portfolio website to AWS Amplify Hosting with a CI/CD pipeline and integrate with existing API Gateway.
+# Details:
+1. Create an AWS account if not already available
+2. Set up an AWS Amplify project in the AWS Management Console
+3. Connect the GitHub repository to Amplify for continuous deployment
+4. Configure build settings and output directory in Amplify console for Next.js application
+5. Set up custom domain using Route 53 or external domain provider
+6. Configure branch-based deployments for staging and production environments
+7. Set up AWS Amplify CI/CD pipeline for automated builds and deployments
+8. Integrate Amplify deployment with existing API Gateway:
+   a. Configure API Gateway to route requests to the Amplify app URL
+   b. Set up custom domain mapping in API Gateway if needed
+   c. Disable any previous Lambda integrations associated with the API Gateway endpoint
+9. Implement AWS Pinpoint for visitor analytics and tracking
+10. Configure caching strategies and CDN settings for static assets
+11. Test the integration between API Gateway and Amplify hosting
+12. Document the AWS Amplify deployment process and API Gateway integration
+
+# Test Strategy:
+Deploy to AWS Amplify and verify all pages, assets, and functionality work correctly in production. Test on multiple devices and browsers. Verify the Amplify CI/CD pipeline correctly deploys changes when code is pushed to the main branch. Confirm custom domain configuration and SSL certificate are working properly. Test API Gateway integration by making requests to endpoints and verifying they correctly route to the Amplify-hosted application. Ensure any previous Lambda integrations are properly disabled and not interfering with the new setup. Test analytics data collection through AWS Pinpoint. Verify end-to-end functionality of the application through the API Gateway to Amplify hosting path.
