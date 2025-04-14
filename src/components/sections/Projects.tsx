@@ -31,7 +31,7 @@ const Projects = () => {
 
   // Handle project click
   const handleProjectClick = useCallback(
-    (projectId: string) => {
+    (projectId: number) => {
       router.push(`/projects/${projectId}`);
     },
     [router]
