@@ -10,9 +10,9 @@ const Contact = () => {
     <section id="contact" className="py-16">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">Get In Touch</h2>
-        <Card className="max-w-md mx-auto shadow-md h-20 flex items-center">
-          <CardContent className="text-center w-full">
-            <div className="flex justify-center items-center gap-6 pt-2">
+        <Card className="max-w-lg mx-auto shadow-md flex items-center justify-center">
+          <CardContent className="text-center w-full py-6">
+            <div className="flex justify-center items-center gap-12">
               <a href={`mailto:${email}`} className="text-primary hover:underline font-medium">
                 Email
               </a>

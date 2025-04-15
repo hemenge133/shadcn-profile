@@ -83,8 +83,13 @@ export default function RootLayout({
             {children}
           </main>
           <footer className="py-6 border-t border-border/40 bg-background/95">
-            <div className="container">
-              <p className="text-center text-sm text-muted-foreground">
+            <div className="container mx-auto px-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
+                  N
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
                 © {new Date().getFullYear()} Hayden Menge. All rights reserved.
               </p>
             </div>

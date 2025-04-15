@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { SiSalesforce } from 'react-icons/si';
-import { FaAws } from 'react-icons/fa';
-import { ChevronDown } from 'lucide-react';
+import { FaAws, FaLinkedin } from 'react-icons/fa';
+import { Mail, ChevronDown } from 'lucide-react';
 
 const Hero = () => {
   // Placeholder data - replace with actual content
@@ -13,6 +14,8 @@ const Hero = () => {
     'Seattle-based Software Engineer specializing in distributed systems, passionate about exploring the potential of AI and Machine Learning';
   const avatarSrc = '/32338288 (1).png';
   const avatarAlt = 'Hayden Menge, Software Engineer';
+  const email = 'me@haydenmenge.com';
+  const linkedinUrl = 'https://linkedin.com/in/hayden-menge-548590167/';
 
   return (
     <section
@@ -47,6 +50,20 @@ const Hero = () => {
               />
             </div>
             <p className="text-lg mb-6">{intro}</p>
+            <div className="flex flex-wrap gap-4 mt-2">
+              <Button asChild size="lg" className="shadow-md">
+                <a href={`mailto:${email}`}>
+                  <Mail className="mr-2 h-5 w-5" />
+                  Contact Me
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="shadow-sm">
+                <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+                  <FaLinkedin className="mr-2 h-5 w-5" />
+                  LinkedIn
+                </a>
+              </Button>
+            </div>
           </div>
         </CardContent>
 
