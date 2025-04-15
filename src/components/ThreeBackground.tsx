@@ -5,9 +5,9 @@ import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
 // Simple debounce function
-function debounce(func: Function, wait: number) {
+function debounce(func: ((...args: unknown[]) => void), wait: number) {
   let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: any[]) {
+  return function executedFunction(...args: unknown[]) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
@@ -22,6 +22,47 @@ export default function ThreeBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme, resolvedTheme } = useTheme();
   const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [bunnyState, setBunnyState] = useState({
+    happiness: 0,
+    fullness: 0,
+    message: 'Found me!',
+    animation: false
+  });
+  
+  // Handle bunny interactions
+  const petBunny = () => {
+    setBunnyState(prev => ({
+      ...prev,
+      happiness: Math.min(prev.happiness + 25, 100),
+      message: prev.happiness >= 75 ? 'So happy!' : 'Pet pet pet!',
+      animation: true
+    }));
+    
+    // Reset animation flag after a delay
+    setTimeout(() => {
+      setBunnyState(prev => ({
+        ...prev,
+        animation: false
+      }));
+    }, 500);
+  };
+  
+  const feedBunny = () => {
+    setBunnyState(prev => ({
+      ...prev,
+      fullness: Math.min(prev.fullness + 25, 100),
+      message: prev.fullness >= 75 ? 'So full!' : 'Nom nom nom!',
+      animation: true
+    }));
+    
+    // Reset animation flag after a delay
+    setTimeout(() => {
+      setBunnyState(prev => ({
+        ...prev,
+        animation: false
+      }));
+    }, 500);
+  };
   
   useEffect(() => {
     if (!containerRef.current) return;
@@ -53,7 +94,7 @@ export default function ThreeBackground() {
       const scene = new THREE.Scene();
       
       // Determine if we're in dark or light mode
-      const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
+      const currentTheme = theme === 'dark' || resolvedTheme === 'dark' ? 'dark' : 'light';
       
       // Create a camera with greater field of view and frustum
       const camera = new THREE.PerspectiveCamera(
@@ -149,7 +190,7 @@ export default function ThreeBackground() {
       // Initialize particles with random positions and velocities
       const initializeParticles = () => {
         // Determine color palette based on theme
-        const isDarkMode = theme === 'dark' || resolvedTheme === 'dark';
+        const isDarkMode = currentTheme === 'dark';
         
         // Calculate visible screen boundaries at z=0 (camera's viewing plane)
         const visibleBounds = {
@@ -327,7 +368,7 @@ export default function ThreeBackground() {
         );
         
         // Find the mouse orbital center and update its position
-        const mouseCenter = orbitalCenters.find(center => (center as any).isMouseCenter);
+        const mouseCenter = orbitalCenters.find(center => 'isMouseCenter' in center);
         if (mouseCenter) {
           // Use lerp for smoother movement
           mouseCenter.position.lerp(mouseWorldPos, 0.1);
@@ -357,7 +398,6 @@ export default function ThreeBackground() {
       const animate = () => {
         if (!isMounted) return;
         
-        const deltaTime = clock.getDelta();
         const elapsedTime = clock.getElapsedTime();
         
         // Handle fade-in effect
@@ -387,10 +427,10 @@ export default function ThreeBackground() {
             const center = orbitalCenters[i];
             
             // Skip the mouse orbital center
-            if ((center as any).isMouseCenter) continue;
+            if ('isMouseCenter' in center) continue;
             
             // Create target position if it doesn't exist yet
-            if (!(center as any).targetPosition) {
+            if (!('targetPosition' in center)) {
               // Target position is a random point away from center
               const angle = Math.random() * Math.PI * 2;
               const radius = (bounds.width * 0.3) * (0.4 + Math.random() * 0.6); // 40-100% of 30% of bounds width
@@ -404,7 +444,7 @@ export default function ThreeBackground() {
             
             // Interpolate toward target position
             center.position.lerp(
-              (center as any).targetPosition,
+              ((center as any).targetPosition as THREE.Vector3),
               easedExpansion * 0.02 // Gradual movement
             );
           }
@@ -511,7 +551,7 @@ export default function ThreeBackground() {
               velocities[i3 + 2] += toCenter.z * forceMagnitude;
               
               // Add stronger perpendicular force for mouse orbital center
-              const perpFactor = (center as any).isMouseCenter ? 1.5 : 0.8;
+              const perpFactor = 'isMouseCenter' in center ? 1.5 : 0.8;
               const perpForce = tempVector.crossVectors(toCenter, new THREE.Vector3(0, 0, 1)).normalize();
               perpForce.multiplyScalar(forceMagnitude * perpFactor);
               
@@ -664,6 +704,51 @@ export default function ThreeBackground() {
     };
   }, [theme, resolvedTheme]); // Re-run when theme changes
   
+  // Get ASCII art based on bunny happiness and fullness
+  const getBunnyArt = () => {
+    const isHappy = bunnyState.happiness >= 50;
+    const isFull = bunnyState.fullness >= 50;
+    
+    // Different bunny states
+    if (isHappy && isFull) {
+      return bunnyState.animation ? 
+      `  \\(\\)/   
+ ( ^.^ )  
+ o(\")(\")`
+      : 
+      `  \\(\\)/   
+ ( ^.^ )  
+ o(\")(\")`;
+    } else if (isHappy) {
+      return bunnyState.animation ? 
+      `  \\(\\)    
+ ( ^.^ )~ 
+ o(\")(\")`
+      : 
+      `  \\(\\)/   
+ ( ^.^ )  
+ o(\")(\")`;
+    } else if (isFull) {
+      return bunnyState.animation ? 
+      `  \\(\\)/   
+ ( o.o )  
+ O(\")(\")o`
+      : 
+      `  \\(\\)/   
+ ( o.o )  
+ O(\")(\")`;
+    } else {
+      return bunnyState.animation ? 
+      `  \\(\\)    
+ ( ·.· )~ 
+ o(\")(\") `
+      : 
+      `  \\(\\)/   
+ ( ·.· )  
+ o(\")(\")`;
+    }
+  };
+  
   return (
     <>
       {/* Particle Background */}
@@ -679,17 +764,33 @@ export default function ThreeBackground() {
         aria-hidden="true"
       />
       
-      {/* Hidden Easter Egg */}
+      {/* Interactive Bunny Easter Egg */}
       <div 
         className={`fixed bottom-4 left-1/2 -translate-x-1/2 transition-opacity duration-1000 z-10 ${
-          showEasterEgg ? "opacity-70 hover:opacity-100" : "opacity-0 pointer-events-none"
+          showEasterEgg ? "opacity-90 hover:opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div 
-          className="px-4 py-2 bg-black/70 dark:bg-white/70 text-white dark:text-black rounded-full text-sm font-mono shadow-lg"
-          title="You found the secret message!"
+          className="px-6 py-4 bg-gray-900/80 dark:bg-gray-100/80 text-white dark:text-black rounded-xl shadow-lg flex flex-col items-center"
         >
-          console.log("h4ck3r m0d3 4ct1v4t3d... 🔥");
+          <pre className="font-mono text-sm whitespace-pre mb-1 select-none">
+            {getBunnyArt()}
+          </pre>
+          <p className="text-xs font-medium my-1">{bunnyState.message}</p>
+          <div className="flex gap-2 mt-2">
+            <button 
+              onClick={petBunny}
+              className="px-3 py-1 bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-md text-xs font-medium transition-colors"
+            >
+              Pet
+            </button>
+            <button 
+              onClick={feedBunny}
+              className="px-3 py-1 bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-600 text-white rounded-md text-xs font-medium transition-colors"
+            >
+              Feed
+            </button>
+          </div>
         </div>
       </div>
     </>
