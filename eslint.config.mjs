@@ -19,7 +19,7 @@ const eslintConfig = [
       ".next/**/*",
       "**/.git/",
       "src/services/screenshot.ts",
-    ],
+    ]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   eslintConfigPrettier,

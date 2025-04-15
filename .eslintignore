@@ -1,9 +1,0 @@
-# Build output
-.next/
-out/
-
-# Dependencies
-node_modules/
-
-# Generated content
-src/services/screenshot.ts 

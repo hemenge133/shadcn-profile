@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Screen View MCP",
-    "description": "TypeScript project using Model Context Protocol (MCP) SDK that enables AI assistants to capture and analyze screenshots using Claude Vision API.",
+    "description": "Using Anthropic's MCP SDK to enable AI assistants to capture and analyze screenshots using Claude Vision API.",
     "longDescription": "Detailed description about the Screen View MCP project, covering its architecture, challenges faced, and solutions implemented. It leverages the Claude Vision API for image analysis within the Multi-Capability Platform (MCP) ecosystem.",
     "tags": ["TypeScript", "MCP SDK", "Claude Vision", "AI", "Node.js"],
     "imageUrl": "https://picsum.photos/seed/screen-view-mcp/600/400", 
