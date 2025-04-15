@@ -228,7 +228,7 @@ export default function ThreeBackground() {
         };
       };
       
-      let bounds = getBoundaries();
+      const bounds = getBoundaries();
       
       // Create orbital centers that particles will orbit around
       const createOrbitalCenters = () => {
@@ -255,19 +255,7 @@ export default function ThreeBackground() {
       // Create orbital centers
       const orbitalCenters = createOrbitalCenters();
       
-      // Add a dynamic orbital center that follows the mouse
-      const mouseOrbitalCenter = {
-        position: new THREE.Vector3(0, 0, 10), // Initial position
-        mass: 1000, // Stronger mass for more noticeable effect
-        radius: .1, // Larger radius of influence
-        isMouseCenter: true // Flag to identify this special center
-      };
-      
-      // Add mouse center to the array
-      orbitalCenters.push(mouseOrbitalCenter);
-      
       // We'll keep orbital centers as invisible force points - no visible spheres
-      // This removes the large static glowing orbs while keeping the orbital mechanics
       
       // Create particles
       const particleCount = 2000;
@@ -285,11 +273,7 @@ export default function ThreeBackground() {
         // Determine color palette based on theme
         const isDarkMode = currentTheme === 'dark';
         
-        // Calculate visible screen boundaries at z=0 (camera's viewing plane)
-        const visibleBounds = {
-          width: bounds.width * 0.5, // Just the actual visible area, not the full bounds
-          height: bounds.height * 0.5
-        };
+
 
         // Define orbit parameters
         const orbitRadius = 12; // Main orbit radius
@@ -466,20 +450,6 @@ export default function ThreeBackground() {
       const handleMouseMove = (event: MouseEvent) => {
         mouseX = (event.clientX / window.innerWidth) * 2 - 1;
         mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        
-        // Update the position of the mouse orbital center
-        const mouseWorldPos = new THREE.Vector3(
-          mouseX * bounds.width * 0.3, // Scale to match the scene dimensions
-          mouseY * bounds.height * 0.3,
-          camera.position.z - 10 // Keep in front of the camera
-        );
-        
-        // Find the mouse orbital center and update its position
-        const mouseCenter = orbitalCenters.find(center => 'isMouseCenter' in center);
-        if (mouseCenter) {
-          // Use lerp for smoother movement
-          mouseCenter.position.lerp(mouseWorldPos, 0.1);
-        }
       };
       
       window.addEventListener('mousemove', handleMouseMove);
@@ -491,11 +461,11 @@ export default function ThreeBackground() {
       // Fade-in animation variables
       const fadeInDuration = 6.0; // Slower fade-in over 6 seconds instead of 2
       const targetOpacity = 0.8; // Final opacity value
-      let startTime = clock.getElapsedTime();
+      const startTime = clock.getElapsedTime();
       let isFadingIn = true;
       
       // Start with centers clustered, then gradually move them outward
-      let centersExpanding = false; // We don't need expansion anymore since we start with one center
+      const centersExpanding = false; // We don't need expansion anymore since we start with one center
       
       // Second mass rotation parameters
       const secondMassRotationSpeed = 0.2; // Rotation speed in radians per second
@@ -545,8 +515,8 @@ export default function ThreeBackground() {
           mainCenter.position.y += (Math.random() - 0.5) * 0.01;
           
           // Then correct back to center with a gentle pull
-          mainCenter.position.x *= 0.995;
-          mainCenter.position.y *= 0.995;
+          mainCenter.position.x *= 0.99;
+          mainCenter.position.y *= 0.99;
           
           // Rotate the second mass around the primary mass
           const secondCenter = orbitalCenters[1]; // The second orbital center
@@ -653,8 +623,8 @@ export default function ThreeBackground() {
               velocities[i3 + 1] += toCenter.y * forceMagnitude;
               velocities[i3 + 2] += toCenter.z * forceMagnitude;
               
-              // Add stronger perpendicular force for mouse orbital center
-              const perpFactor = 'isMouseCenter' in center ? 1.5 : 0.8;
+              // Add perpendicular force for orbital motion
+              const perpFactor = 0.8;
               const perpForce = tempVector.crossVectors(toCenter, new THREE.Vector3(0, 0, 1)).normalize();
               perpForce.multiplyScalar(forceMagnitude * perpFactor);
               
