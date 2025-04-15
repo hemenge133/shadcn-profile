@@ -443,7 +443,6 @@ export default function ThreeBackground() {
       const particleSystem = new THREE.Points(particles, shaderMaterial);
       scene.add(particleSystem);
       
-      window.addEventListener('mousemove', handleMouseMove);
       
       // Animation loop
       const clock = new THREE.Clock();
