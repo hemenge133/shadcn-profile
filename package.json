@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
     "task-master": "node scripts/dev.js",
     "tm": "node scripts/dev.js",
     "list": "node scripts/dev.js list",
