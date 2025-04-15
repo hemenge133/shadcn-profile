@@ -443,15 +443,6 @@ export default function ThreeBackground() {
       const particleSystem = new THREE.Points(particles, shaderMaterial);
       scene.add(particleSystem);
       
-      // Track mouse for interactivity
-      let mouseX = 0;
-      let mouseY = 0;
-      
-      const handleMouseMove = (event: MouseEvent) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-      };
-      
       window.addEventListener('mousemove', handleMouseMove);
       
       // Animation loop
