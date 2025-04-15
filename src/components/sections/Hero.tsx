@@ -50,16 +50,21 @@ const Hero = () => {
               />
             </div>
             <p className="text-lg mb-6">{intro}</p>
-            <div className="flex flex-wrap gap-4 mt-2">
-              <Button asChild size="lg" className="shadow-md">
+            <div className="flex items-center gap-3 mt-2">
+              <Button asChild size="default" className="shadow-md h-9 px-3 sm:px-4">
                 <a href={`mailto:${email}`}>
-                  <Mail className="mr-2 h-5 w-5" />
-                  Contact Me
+                  <Mail className="mr-2 h-4 w-4" />
+                  Email
                 </a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="shadow-sm">
+              <Button
+                asChild
+                variant="outline"
+                size="default"
+                className="shadow-sm h-9 px-3 sm:px-4"
+              >
                 <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin className="mr-2 h-5 w-5" />
+                  <FaLinkedin className="mr-2 h-4 w-4" />
                   LinkedIn
                 </a>
               </Button>
