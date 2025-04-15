@@ -232,14 +232,21 @@ export default function ThreeBackground() {
       
       // Create orbital centers that particles will orbit around
       const createOrbitalCenters = () => {
-        // Create just a single main orbital center at the origin
+        // Create orbital centers
         const centers = [];
         
-        // Add one strong orbital center at the middle
+        // Add main orbital center at the middle
         centers.push({
           position: new THREE.Vector3(0, 0, 5), // Centered in camera view
           mass: 1.5,  // Stronger mass for more defined orbit
           radius: 30  // Large radius to affect most particles
+        });
+        
+        // Add second orbital center offset from the main one
+        centers.push({
+          position: new THREE.Vector3(8, -5, 7), // Offset position
+          mass: 0.8,  // Slightly weaker mass
+          radius: 20  // Smaller radius of influence
         });
         
         return centers;
@@ -490,6 +497,10 @@ export default function ThreeBackground() {
       // Start with centers clustered, then gradually move them outward
       let centersExpanding = false; // We don't need expansion anymore since we start with one center
       
+      // Second mass rotation parameters
+      const secondMassRotationSpeed = 0.2; // Rotation speed in radians per second
+      const secondMassDistance = 9.5; // Distance from primary mass (derived from the initial position)
+      
       // Temp vectors for physics calculations (reused for performance)
       const tempVector = new THREE.Vector3();
       const tempVector2 = new THREE.Vector3();
@@ -536,6 +547,14 @@ export default function ThreeBackground() {
           // Then correct back to center with a gentle pull
           mainCenter.position.x *= 0.995;
           mainCenter.position.y *= 0.995;
+          
+          // Rotate the second mass around the primary mass
+          const secondCenter = orbitalCenters[1]; // The second orbital center
+          const angle = elapsedTime * secondMassRotationSpeed;
+          
+          secondCenter.position.x = Math.cos(angle) * secondMassDistance;
+          secondCenter.position.y = Math.sin(angle) * secondMassDistance;
+          secondCenter.position.z = 7 + Math.sin(elapsedTime * 0.5) * 2; // Add some z-axis oscillation
         }
         
         // Update camera based on mouse
