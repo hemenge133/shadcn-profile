@@ -558,8 +558,9 @@ export default function ThreeBackground() {
         }
         
         // Update camera based on mouse
-        camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
-        camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+        // Disable mouse-based camera movement
+        // camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+        // camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
         camera.lookAt(scene.position);
         
         // Get current bounds
