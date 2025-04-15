@@ -444,8 +444,8 @@ export default function ThreeBackground() {
       scene.add(particleSystem);
       
       // Track mouse for interactivity
-      const mouseX = 0;
-      const mouseY = 0;
+      let mouseX = 0;
+      let mouseY = 0;
       
       const handleMouseMove = (event: MouseEvent) => {
         mouseX = (event.clientX / window.innerWidth) * 2 - 1;
