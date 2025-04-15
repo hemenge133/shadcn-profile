@@ -1,35 +1,51 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-// Dynamically import ThreeBackground with no SSR
-const ThreeBackground = dynamic(() => import('./ThreeBackground'), {
-  ssr: false,
-  loading: () => null,
-});
+// Dynamically import Three.js background without using React Three Fiber
+const ThreeBackground = dynamic(
+  () => import('./ThreeBackground'),
+  { ssr: false }
+);
 
 export default function DynamicThreeBackground() {
   const [isMounted, setIsMounted] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
-
-  // Check for reduced motion preference
+  
+  // Safe browser check for motion preferences
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    // Mark as mounted
     setIsMounted(true);
-
-    // Check user's motion preference
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setIsReducedMotion(mediaQuery.matches);
-
-    // Listen for changes
-    const handleChange = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    
+    // Check motion preferences
+    try {
+      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+      if (prefersReducedMotion) {
+        setIsReducedMotion(prefersReducedMotion.matches);
+        
+        // Add listener with proper fallbacks
+        const handlePreferenceChange = (event: MediaQueryListEvent) => {
+          setIsReducedMotion(event.matches);
+        };
+        
+        // Handle different browser implementations
+        if (prefersReducedMotion.addEventListener) {
+          prefersReducedMotion.addEventListener('change', handlePreferenceChange);
+          return () => prefersReducedMotion.removeEventListener('change', handlePreferenceChange);
+        }
+      }
+    } catch (error) {
+      console.warn("Error checking motion preferences:", error);
+    }
   }, []);
 
-  // Don't render on server or if reduced motion is preferred
-  if (!isMounted || isReducedMotion) return null;
+  // Don't render if reduced motion is preferred or not mounted yet
+  if (!isMounted || isReducedMotion) {
+    return null;
+  }
 
   return <ThreeBackground />;
 }

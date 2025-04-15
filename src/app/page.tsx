@@ -1,29 +1,39 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Hero from '@/components/sections/Hero';
 import Projects from '@/components/sections/Projects';
 import Skills from '@/components/sections/Skills';
 import About from '@/components/sections/About';
+import dynamic from 'next/dynamic';
 // Contact component no longer needed as we've added CTAs to the Hero section
 
-// Dynamically import the Three.js background to improve performance
-// Temporarily disabled due to module resolution issues
-// const DynamicThreeBackground = dynamic(
-//   () => import("@/components/DynamicThreeBackground"),
-//   { ssr: false }
-// );
+// Dynamic import with client-side only rendering
+const DynamicThreeBackground = dynamic(
+  () => import('@/components/DynamicThreeBackground'),
+  { ssr: false }
+);
 
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Only render the background on the client side
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <>
-      {/* Three.js Background Animation */}
-      {/* <DynamicThreeBackground /> */}
+      {/* Render the background only on client side */}
+      {isMounted && <DynamicThreeBackground />}
 
-      <Hero />
-      <Projects />
-      <Skills />
-      <About />
-      {/* Contact section removed in favor of CTA buttons in Hero section */}
+      {/* Main content with z-index to ensure it's above the background */}
+      <div className="relative z-10">
+        <Hero />
+        <Projects />
+        <Skills />
+        <About />
+      </div>
 
       {/* Container for the rest of the content (now removed) */}
       {/* 

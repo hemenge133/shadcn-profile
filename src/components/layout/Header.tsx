@@ -80,35 +80,33 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container px-4 flex h-16 items-center mx-auto">
-        {/* Fixed-width sidebar for left and right to keep center aligned */}
-        <div className="w-14"></div> {/* Fixed width spacer */}
+      <div className="container px-4 flex h-16 items-center justify-between mx-auto">
+        {/* Left spacer - keep same width as right side for symmetry */}
+        <div className="w-14 md:w-20"></div>
         
-        {/* Center navigation with exact pixel-based spacing */}
-        <div className="flex-grow flex justify-center">
-          <nav>
-            <ul className="flex space-x-6">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <Button
-                    size="sm"
-                    onClick={() => handleScroll(item.id)}
-                    className={`transition-colors px-3 py-1 h-9 text-base font-medium rounded-md ${
-                      activeSection === item.id
-                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                    }`}
-                  >
-                    {item.label}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+        {/* Center navigation */}
+        <nav className="flex-shrink-0 flex justify-center">
+          <ul className="flex space-x-6">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <Button
+                  size="sm"
+                  onClick={() => handleScroll(item.id)}
+                  className={`transition-colors px-3 py-1 h-9 text-base font-medium rounded-md ${
+                    activeSection === item.id
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  }`}
+                >
+                  {item.label}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </nav>
         
-        {/* Fixed width section for the theme toggle */}
-        <div className="w-14 flex justify-center">
+        {/* Right section with fixed width and alignment for theme toggle */}
+        <div className="w-14 md:w-20 flex justify-end">
           <ThemeToggle />
         </div>
       </div>

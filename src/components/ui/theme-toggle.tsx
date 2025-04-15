@@ -4,47 +4,32 @@ import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  // Use resolvedTheme instead of theme to get the actual applied theme
-  const isDark = resolvedTheme === 'dark';
-
-  // Mount effect
-  React.useEffect(() => {
+  // Ensure the component is mounted to avoid hydration mismatch
+  useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Toggle between 'light' and 'dark' directly instead of basing it on current theme
-  const toggleTheme = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
-
-  // Only render the actual button content after mounting to prevent hydration mismatch
   if (!mounted) {
-    return (
-      <div className="w-10 h-10 inline-flex">
-        <Button variant="ghost" size="icon" className="w-10 h-10 rounded-full" disabled />
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="w-10 h-10 inline-flex">
+    <div className="flex items-center justify-center">
       <Button
         variant="ghost"
         size="icon"
-        onClick={toggleTheme}
-        className="w-10 h-10 rounded-full"
-        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+        className="h-9 w-9 rounded-md flex items-center justify-center focus-visible:ring-1 focus-visible:ring-ring"
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        aria-label="Toggle theme"
       >
-        {isDark ? (
-          <Sun className="h-5 w-5" />
-        ) : (
-          <Moon className="h-5 w-5" />
-        )}
+        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       </Button>
     </div>
   );
