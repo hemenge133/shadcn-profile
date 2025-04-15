@@ -80,30 +80,35 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center">
-        {/* Three-column layout for better cross-browser consistency */}
-        <div className="w-1/6"></div> {/* Left spacer */}
-        {/* Navigation Links - Centered with fixed spacing */}
-        <nav className="flex flex-1 justify-center">
-          <div className="inline-flex items-center gap-4">
-            {navItems.map((item) => (
-              <Button
-                key={item.id}
-                size="sm"
-                onClick={() => handleScroll(item.id)}
-                className={`transition-colors px-2 py-0.5 h-auto text-base font-medium rounded-md ${
-                  activeSection === item.id
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                }`}
-              >
-                {item.label}
-              </Button>
-            ))}
-          </div>
-        </nav>
-        {/* Theme Toggle - Right aligned */}
-        <div className="w-1/6 flex justify-end pr-2">
+      <div className="container px-4 flex h-16 items-center mx-auto">
+        {/* Fixed-width sidebar for left and right to keep center aligned */}
+        <div className="w-14"></div> {/* Fixed width spacer */}
+        
+        {/* Center navigation with exact pixel-based spacing */}
+        <div className="flex-grow flex justify-center">
+          <nav>
+            <ul className="flex space-x-6">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <Button
+                    size="sm"
+                    onClick={() => handleScroll(item.id)}
+                    className={`transition-colors px-3 py-1 h-9 text-base font-medium rounded-md ${
+                      activeSection === item.id
+                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                    }`}
+                  >
+                    {item.label}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        
+        {/* Fixed width section for the theme toggle */}
+        <div className="w-14 flex justify-center">
           <ThemeToggle />
         </div>
       </div>

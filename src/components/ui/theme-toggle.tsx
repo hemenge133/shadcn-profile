@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-
 import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
@@ -26,28 +25,27 @@ export function ThemeToggle() {
   // Only render the actual button content after mounting to prevent hydration mismatch
   if (!mounted) {
     return (
-      <Button
-        variant="ghost"
-        size="icon"
-        className="w-9 h-9 p-0 rounded-full flex items-center justify-center"
-        disabled
-      />
+      <div className="w-10 h-10 inline-flex">
+        <Button variant="ghost" size="icon" className="w-10 h-10 rounded-full" disabled />
+      </div>
     );
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggleTheme}
-      className="w-9 h-9 p-0 rounded-full flex items-center justify-center"
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-    >
-      {isDark ? (
-        <Sun className="h-[1.2rem] w-[1.2rem]" />
-      ) : (
-        <Moon className="h-[1.2rem] w-[1.2rem]" />
-      )}
-    </Button>
+    <div className="w-10 h-10 inline-flex">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        className="w-10 h-10 rounded-full"
+        aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      >
+        {isDark ? (
+          <Sun className="h-5 w-5" />
+        ) : (
+          <Moon className="h-5 w-5" />
+        )}
+      </Button>
+    </div>
   );
 }
