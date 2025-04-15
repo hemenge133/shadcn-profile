@@ -80,27 +80,30 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center relative">
-        {/* Navigation Links - Centered */}
-        <nav className="flex items-center gap-3 text-lg mx-auto">
-          {navItems.map((item) => (
-            <Button
-              key={item.id}
-              size="sm"
-              onClick={() => handleScroll(item.id)}
-              className={`transition-colors px-2 py-0.5 h-auto text-base font-medium rounded-md ${
-                activeSection === item.id
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-              }`}
-            >
-              {item.label}
-            </Button>
-          ))}
+      <div className="container flex h-16 max-w-screen-2xl items-center">
+        {/* Three-column layout for better cross-browser consistency */}
+        <div className="w-1/6"></div> {/* Left spacer */}
+        {/* Navigation Links - Centered with fixed spacing */}
+        <nav className="flex flex-1 justify-center">
+          <div className="inline-flex items-center gap-4">
+            {navItems.map((item) => (
+              <Button
+                key={item.id}
+                size="sm"
+                onClick={() => handleScroll(item.id)}
+                className={`transition-colors px-2 py-0.5 h-auto text-base font-medium rounded-md ${
+                  activeSection === item.id
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                }`}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </div>
         </nav>
-
-        {/* Theme Toggle - Positioned absolutely on the right */}
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+        {/* Theme Toggle - Right aligned */}
+        <div className="w-1/6 flex justify-end pr-2">
           <ThemeToggle />
         </div>
       </div>

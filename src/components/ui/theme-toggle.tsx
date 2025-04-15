@@ -25,7 +25,14 @@ export function ThemeToggle() {
 
   // Only render the actual button content after mounting to prevent hydration mismatch
   if (!mounted) {
-    return <Button variant="ghost" size="icon" className="rounded-full" disabled />;
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        className="w-9 h-9 p-0 rounded-full flex items-center justify-center"
+        disabled
+      />
+    );
   }
 
   return (
@@ -33,7 +40,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="rounded-full"
+      className="w-9 h-9 p-0 rounded-full flex items-center justify-center"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       {isDark ? (
