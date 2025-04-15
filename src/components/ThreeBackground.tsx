@@ -232,27 +232,15 @@ export default function ThreeBackground() {
       
       // Create orbital centers that particles will orbit around
       const createOrbitalCenters = () => {
-        // Create 3-5 orbital centers for particles to orbit around
+        // Create just a single main orbital center at the origin
         const centers = [];
-        const numCenters = 2 + Math.floor(Math.random() * 3);
         
-        for (let i = 0; i < numCenters; i++) {
-          // All orbital centers start at the center (origin) of the scene
-          const x = 0;
-          const y = 0;
-          const z = 0;
-          
-          // Each center has different gravitational pull
-          // Vary mass and radius more dramatically since positions are the same
-          const mass = 0.2 + Math.random() * 0.8; // Center mass/strength
-          const radius = 5 + Math.random() * 15; // Wider range of orbital influence radius
-          
-          centers.push({
-            position: new THREE.Vector3(x, y, z),
-            mass,
-            radius
-          });
-        }
+        // Add one strong orbital center at the middle
+        centers.push({
+          position: new THREE.Vector3(0, 0, 5), // Centered in camera view
+          mass: 1.5,  // Stronger mass for more defined orbit
+          radius: 30  // Large radius to affect most particles
+        });
         
         return centers;
       };
@@ -283,6 +271,7 @@ export default function ThreeBackground() {
       const velocities = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
     const sizes = new Float32Array(particleCount);
+    const opacityValues = new Float32Array(particleCount); // For individual fade-in control
 
       // Initialize particles with random positions and velocities
       const initializeParticles = () => {
@@ -294,68 +283,42 @@ export default function ThreeBackground() {
           width: bounds.width * 0.5, // Just the actual visible area, not the full bounds
           height: bounds.height * 0.5
         };
+
+        // Define orbit parameters
+        const orbitRadius = 12; // Main orbit radius
+        const orbitThickness = 8; // How thick the orbit stream is
+        const orbitVariation = 4; // Vertical variation in orbit plane
         
         for (let i = 0; i < particleCount; i++) {
           const i3 = i * 3;
           
-          // Position particles off-screen
-          // Initialize with default values to satisfy TypeScript
-          let x = 0;
-          let y = 0;
-          let z = 0;
+          // Distribute particles along a circular orbit with some variation
+          // Generate a random angle around the circle
+          const angle = Math.random() * Math.PI * 2;
           
-          // Determine which edge to spawn from
-          const edge = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-          const depthVariation = (Math.random() - 0.5) * bounds.depth;
+          // Calculate base position on the circle
+          const baseRadius = orbitRadius + (Math.random() * orbitThickness - orbitThickness/2);
+          const x = Math.cos(angle) * baseRadius;
+          const y = Math.sin(angle) * baseRadius;
           
-          switch(edge) {
-            case 0: // Top edge
-              x = (Math.random() - 0.5) * bounds.width * 1.5;
-              y = visibleBounds.height + Math.random() * visibleBounds.height * 0.5;
-              z = depthVariation;
-              break;
-            case 1: // Right edge
-              x = visibleBounds.width + Math.random() * visibleBounds.width * 0.5;
-              y = (Math.random() - 0.5) * bounds.height * 1.5;
-              z = depthVariation;
-              break;
-            case 2: // Bottom edge
-              x = (Math.random() - 0.5) * bounds.width * 1.5;
-              y = -(visibleBounds.height + Math.random() * visibleBounds.height * 0.5);
-              z = depthVariation;
-              break;
-            case 3: // Left edge
-              x = -(visibleBounds.width + Math.random() * visibleBounds.width * 0.5);
-              y = (Math.random() - 0.5) * bounds.height * 1.5;
-              z = depthVariation;
-              break;
-          }
+          // Add some vertical variation
+          const z = (Math.random() - 0.5) * orbitVariation;
           
           // Set position
           positions[i3] = x;
           positions[i3 + 1] = y;
           positions[i3 + 2] = z;
           
-          // Calculate velocity toward the center of the screen
-          const pos = new THREE.Vector3(x, y, z);
-          const center = new THREE.Vector3(0, 0, 0);
-          const toCenter = new THREE.Vector3().subVectors(center, pos).normalize();
+          // Calculate orbital velocity (perpendicular to radius)
+          const speed = 0.03 + Math.random() * 0.02;
+          velocities[i3] = -Math.sin(angle) * speed;      // Tangential direction
+          velocities[i3 + 1] = Math.cos(angle) * speed;   // Tangential direction
+          velocities[i3 + 2] = (Math.random() - 0.5) * 0.01; // Slight z variation
           
-          // Basic velocity toward center
-          const initialSpeed = 0.02 + Math.random() * 0.06;
-          velocities[i3] = toCenter.x * initialSpeed;
-          velocities[i3 + 1] = toCenter.y * initialSpeed;
-          velocities[i3 + 2] = toCenter.z * initialSpeed * 0.2; // Less z-velocity
+          // Randomize initial opacity for staggered fade-in
+          opacityValues[i] = Math.random() * 0.1; // Start mostly transparent
           
-          // Add some tangential motion for more interesting entry paths
-          const perpVector = new THREE.Vector3(0, 0, 1);
-          const tangent = new THREE.Vector3().crossVectors(toCenter, perpVector).normalize();
-          const tangentialFactor = (Math.random() - 0.5) * 0.03;
-          
-          velocities[i3] += tangent.x * tangentialFactor;
-          velocities[i3 + 1] += tangent.y * tangentialFactor;
-          
-          // Add some brighter particles to represent main stars (replacing the static orbs)
+          // Add some brighter particles to represent main stars
           const particleType = Math.random();
           
           if (isDarkMode) {
@@ -433,20 +396,60 @@ export default function ThreeBackground() {
       particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
       particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+      particles.setAttribute('opacity', new THREE.BufferAttribute(opacityValues, 1));
       
       // Create material
       const material = new THREE.PointsMaterial({
         size: 0.1,
         vertexColors: true,
         transparent: true,
-        opacity: 0.0, // Start fully transparent for fade-in effect
+        opacity: 1.0, // We'll use per-particle opacity instead of global
         depthWrite: false,
         sizeAttenuation: true,
         blending: THREE.AdditiveBlending
       });
       
-      // Create particle system
-      const particleSystem = new THREE.Points(particles, material);
+      // Create shader material for custom opacity per particle
+      const shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          pointTexture: { value: null }
+        },
+        vertexShader: `
+          attribute float opacity;
+          varying float vOpacity;
+          attribute float size;
+          varying vec3 vColor;
+          
+          void main() {
+            vColor = color;
+            vOpacity = opacity;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = size * (300.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vColor;
+          varying float vOpacity;
+          
+          void main() {
+            // Simple circular particle shape
+            float r = 0.5;
+            vec2 center = vec2(0.5, 0.5);
+            float distance = length(gl_PointCoord - center);
+            float alpha = smoothstep(r, r - 0.05, distance) * vOpacity;
+            
+            gl_FragColor = vec4(vColor, alpha);
+          }
+        `,
+        blending: THREE.AdditiveBlending,
+        depthTest: false,
+        transparent: true,
+        vertexColors: true
+      });
+      
+      // Create particle system with shader material
+      const particleSystem = new THREE.Points(particles, shaderMaterial);
       scene.add(particleSystem);
       
       // Track mouse for interactivity
@@ -479,14 +482,13 @@ export default function ThreeBackground() {
       let animationId: number;
       
       // Fade-in animation variables
-      const fadeInDuration = 2.0; // Fade-in over 2 seconds
-      const targetOpacity = 0.7; // Final opacity value
+      const fadeInDuration = 6.0; // Slower fade-in over 6 seconds instead of 2
+      const targetOpacity = 0.8; // Final opacity value
       let startTime = clock.getElapsedTime();
       let isFadingIn = true;
       
       // Start with centers clustered, then gradually move them outward
-      let centersExpanding = true;
-      const expansionDuration = 5.0; // Expand over 5 seconds
+      let centersExpanding = false; // We don't need expansion anymore since we start with one center
       
       // Temp vectors for physics calculations (reused for performance)
       const tempVector = new THREE.Vector3();
@@ -497,59 +499,43 @@ export default function ThreeBackground() {
         
         const elapsedTime = clock.getElapsedTime();
         
-        // Handle fade-in effect
+        // Handle fade-in effect - gradually increase opacity of each particle individually
         if (isFadingIn) {
           const fadeTime = elapsedTime - startTime;
           const fadeProgress = Math.min(fadeTime / fadeInDuration, 1.0);
           
-          // Use smooth easing function
-          const easedProgress = 1 - Math.pow(1 - fadeProgress, 3); // Cubic ease-out
-          material.opacity = easedProgress * targetOpacity;
+          // Update opacity values for each particle
+          const opacityAttribute = particles.getAttribute('opacity') as THREE.BufferAttribute;
+          const opacityArray = opacityAttribute.array as Float32Array;
+          
+          for (let i = 0; i < particleCount; i++) {
+            // Each particle fades in at a slightly different rate
+            const individualDelay = i / particleCount * 2.0; // Stagger over 2 seconds
+            const individualProgress = Math.max(0, Math.min(1, (fadeProgress * fadeInDuration - individualDelay) / (fadeInDuration - individualDelay * 0.5)));
+            
+            // Use smooth easing function
+            const easedProgress = 1 - Math.pow(1 - individualProgress, 3); // Cubic ease-out
+            opacityArray[i] = easedProgress * targetOpacity;
+          }
+          
+          opacityAttribute.needsUpdate = true;
           
           if (fadeProgress >= 1.0) {
             isFadingIn = false;
           }
         }
         
-        // Gradually expand orbital centers from the center
-        if (centersExpanding) {
-          const expansionTime = elapsedTime - startTime;
-          const expansionProgress = Math.min(expansionTime / expansionDuration, 1.0);
+        // To keep the main orbital center mostly pinned at (0,0,z), we'll add a slight drift and correction
+        if (!centersExpanding) {
+          const mainCenter = orbitalCenters[0]; // The first center is our main orbital center
           
-          // Use easing function for smooth expansion
-          const easedExpansion = 1 - Math.pow(1 - expansionProgress, 2); // Quadratic ease-out
+          // Add very slight drift to make it more natural
+          mainCenter.position.x += (Math.random() - 0.5) * 0.01;
+          mainCenter.position.y += (Math.random() - 0.5) * 0.01;
           
-          // Expand all centers except the mouse orbital center
-          for (let i = 0; i < orbitalCenters.length; i++) {
-            const center = orbitalCenters[i];
-            
-            // Skip the mouse orbital center
-            if ('isMouseCenter' in center) continue;
-            
-            // Create target position if it doesn't exist yet
-            if (!('targetPosition' in center)) {
-              // Target position is a random point away from center
-              const angle = Math.random() * Math.PI * 2;
-              const radius = (bounds.width * 0.3) * (0.4 + Math.random() * 0.6); // 40-100% of 30% of bounds width
-              
-              const tx = Math.cos(angle) * radius;
-              const ty = Math.sin(angle) * radius;
-              const tz = (Math.random() - 0.5) * bounds.depth * 0.3;
-              
-              (center as any).targetPosition = new THREE.Vector3(tx, ty, tz);
-            }
-            
-            // Interpolate toward target position
-            center.position.lerp(
-              ((center as any).targetPosition as THREE.Vector3),
-              easedExpansion * 0.02 // Gradual movement
-            );
-          }
-          
-          // End expansion when complete
-          if (expansionProgress >= 1.0) {
-            centersExpanding = false;
-          }
+          // Then correct back to center with a gentle pull
+          mainCenter.position.x *= 0.995;
+          mainCenter.position.y *= 0.995;
         }
         
         // Update camera based on mouse
