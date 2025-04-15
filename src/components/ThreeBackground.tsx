@@ -702,7 +702,6 @@ export default function ThreeBackground() {
       // Return cleanup function
       return {
         cleanup: () => {
-          window.removeEventListener('mousemove', handleMouseMove);
           cancelAnimationFrame(animationId);
           particles.dispose();
           material.dispose();
