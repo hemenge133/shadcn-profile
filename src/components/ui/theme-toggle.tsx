@@ -7,19 +7,24 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  // Inverted logic: Show Moon in light, Sun in dark
-  const Icon = theme === 'dark' ? Sun : Moon;
-  // Determine the next theme for the onClick handler
-  const nextTheme = theme === 'dark' ? 'light' : 'dark';
-
-  // Prevent rendering button contents on initial mount if theme is undefined
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
 
+  // Use resolvedTheme instead of theme to get the actual applied theme
+  const isDark = resolvedTheme === 'dark';
+
+  // Mount effect
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Toggle between 'light' and 'dark' directly instead of basing it on current theme
+  const toggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark');
+  };
+
+  // Only render the actual button content after mounting to prevent hydration mismatch
   if (!mounted) {
-    // Render a placeholder or null during hydration to avoid mismatches
     return <Button variant="ghost" size="icon" className="rounded-full" disabled />;
   }
 
@@ -27,12 +32,15 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(nextTheme)}
+      onClick={toggleTheme}
       className="rounded-full"
-      aria-label={`Switch to ${nextTheme} mode`} // Improved accessibility
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
-      <Icon className="h-[1.2rem] w-[1.2rem]" />
-      {/* Removed the hidden icon and sr-only span */}
+      {isDark ? (
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+      ) : (
+        <Moon className="h-[1.2rem] w-[1.2rem]" />
+      )}
     </Button>
   );
 }

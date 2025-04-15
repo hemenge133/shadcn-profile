@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { SiSalesforce } from 'react-icons/si';
 import { FaAws, FaLinkedin } from 'react-icons/fa';
-import { Mail, ChevronDown } from 'lucide-react';
+import { Mail, Check, ChevronDown } from 'lucide-react';
 
 const Hero = () => {
   // Placeholder data - replace with actual content
@@ -16,6 +16,18 @@ const Hero = () => {
   const avatarAlt = 'Hayden Menge, Software Engineer';
   const email = 'me@haydenmenge.com';
   const linkedinUrl = 'https://linkedin.com/in/hayden-menge-548590167/';
+
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
 
   return (
     <section
@@ -51,11 +63,23 @@ const Hero = () => {
             </div>
             <p className="text-lg mb-6">{intro}</p>
             <div className="flex items-center gap-3 mt-2">
-              <Button asChild size="default" className="shadow-md h-9 px-3 sm:px-4">
-                <a href={`mailto:${email}`}>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Email
-                </a>
+              <Button
+                size="default"
+                className="shadow-md h-9 px-3 sm:px-4 gap-2"
+                onClick={copyToClipboard}
+                aria-label={copied ? 'Email copied to clipboard' : 'Copy email to clipboard'}
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-4 w-4" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail className="h-4 w-4" />
+                    <span>Email</span>
+                  </>
+                )}
               </Button>
               <Button
                 asChild
