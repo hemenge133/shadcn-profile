@@ -44,6 +44,7 @@ const Hero = () => {
               fill
               sizes="(max-width: 768px) 128px, 224px"
               priority
+              unoptimized
               className="object-cover aspect-square"
               style={{ objectFit: 'cover' }}
             />

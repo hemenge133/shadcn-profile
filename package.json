@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev:local": "next dev --turbopack",
-    "dev:remote": "next dev --hostname 0.0.0.0",
+    "local": "next dev --turbopack",
+    "remote": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
