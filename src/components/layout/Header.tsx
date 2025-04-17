@@ -8,7 +8,6 @@ const navItems = [
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'about', label: 'About' },
-  { id: 'contact', label: 'Contact' },
 ];
 
 const Header = () => {
@@ -83,7 +82,7 @@ const Header = () => {
       <div className="container px-4 flex h-16 items-center justify-between mx-auto">
         {/* Left spacer - keep same width as right side for symmetry */}
         <div className="w-14 md:w-20"></div>
-        
+
         {/* Center navigation */}
         <nav className="flex-shrink-0 flex justify-center">
           <ul className="flex space-x-6">
@@ -104,7 +103,7 @@ const Header = () => {
             ))}
           </ul>
         </nav>
-        
+
         {/* Right section with fixed width and alignment for theme toggle */}
         <div className="w-14 md:w-20 flex justify-end">
           <ThemeToggle />
