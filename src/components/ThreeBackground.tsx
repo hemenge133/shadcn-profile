@@ -621,7 +621,24 @@ export default function ThreeBackground() {
       const currentWidth = window.innerWidth;
       const currentHeight = window.innerHeight;
 
-      // Check if dimensions changed significantly (more than 5% in either dimension)
+      // Special handling for phone-sized screens - never reset animation
+      const isPhoneScreen = currentWidth <= 768;
+
+      if (isPhoneScreen) {
+        // For phone screens, just update sizes without rebuilding
+        if (activeRenderer) {
+          activeRenderer.setSize(currentWidth, currentHeight);
+
+          // Also update camera aspect ratio
+          if (activeCamera) {
+            activeCamera.aspect = currentWidth / currentHeight;
+            activeCamera.updateProjectionMatrix();
+          }
+        }
+        return; // Skip the reset for phone screens completely
+      }
+
+      // For larger screens, use the 5% threshold logic
       const previousWidth = activeRenderer?.domElement?.width || 0;
       const previousHeight = activeRenderer?.domElement?.height || 0;
 
@@ -643,7 +660,7 @@ export default function ThreeBackground() {
         return;
       }
 
-      // For significant changes, clean up current scene and rebuild
+      // For significant changes on larger screens, clean up current scene and rebuild
       if (isMounted) {
         sceneSetup.cleanup();
         sceneSetup = setupScene();
