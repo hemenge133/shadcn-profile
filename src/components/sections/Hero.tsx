@@ -41,12 +41,12 @@ const Hero = () => {
             <Image
               src={avatarSrc}
               alt={avatarAlt}
-              fill
+              width={224}
+              height={224}
               sizes="(max-width: 768px) 128px, 224px"
               priority
               unoptimized
-              className="object-cover aspect-square"
-              style={{ objectFit: 'cover' }}
+              className="object-cover w-full h-full"
             />
           </div>
           <div className="text-left w-full">

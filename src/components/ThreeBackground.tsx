@@ -116,7 +116,7 @@ export default function ThreeBackground() {
       // We'll keep orbital centers as invisible force points - no visible spheres
 
       // Create particles
-      const particleCount = 2000;
+      const particleCount = 1000;
 
       // Create geometry and buffers
       const particles = new THREE.BufferGeometry();
@@ -168,70 +168,39 @@ export default function ThreeBackground() {
           // Add some brighter particles to represent main stars
           const particleType = Math.random();
 
-          if (isDarkMode) {
-            // Dark mode colors - blues and purples
-            if (particleType < 0.5) {
-              // Blue range - regular particles
-              const color = new THREE.Color().setHSL(0.6 + Math.random() * 0.1, 0.7, 0.7);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.05 + 0.02;
-            } else if (particleType < 0.8) {
-              // Purple range - regular particles
-              const color = new THREE.Color().setHSL(0.7 + Math.random() * 0.1, 0.7, 0.7);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.05 + 0.02;
-            } else if (particleType < 0.95) {
-              // Cyan/white for stars
-              const color = new THREE.Color().setHSL(0.5 + Math.random() * 0.1, 0.7, 0.9);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.08 + 0.04;
-            } else {
-              // Larger, brighter particles
-              const hue = Math.random() * 0.2 + 0.6; // Blue to purple range
-              const color = new THREE.Color().setHSL(hue, 0.9, 0.9);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.15 + 0.08; // Larger but not too large
-            }
+          // Generate base color and size using dark-mode palette
+          if (particleType < 0.5) {
+            const color = new THREE.Color().setHSL(0.6 + Math.random() * 0.1, 0.7, 0.7);
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+            sizes[i] = Math.random() * 0.05 + 0.02;
+          } else if (particleType < 0.8) {
+            const color = new THREE.Color().setHSL(0.7 + Math.random() * 0.1, 0.7, 0.7);
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+            sizes[i] = Math.random() * 0.05 + 0.02;
+          } else if (particleType < 0.95) {
+            const color = new THREE.Color().setHSL(0.5 + Math.random() * 0.1, 0.7, 0.9);
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+            sizes[i] = Math.random() * 0.08 + 0.04;
           } else {
-            // Light mode colors - warmer tones: oranges, yellows, and light pinks
-            if (particleType < 0.5) {
-              // Orange range - regular particles
-              const color = new THREE.Color().setHSL(0.08 + Math.random() * 0.05, 0.7, 0.6);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.05 + 0.02;
-            } else if (particleType < 0.8) {
-              // Yellow/gold range - regular particles
-              const color = new THREE.Color().setHSL(0.12 + Math.random() * 0.05, 0.8, 0.6);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.05 + 0.02;
-            } else if (particleType < 0.95) {
-              // Light pink/peach for stars
-              const color = new THREE.Color().setHSL(0.05 + Math.random() * 0.05, 0.7, 0.7);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.08 + 0.04;
-            } else {
-              // Larger, brighter particles
-              const hue = Math.random() * 0.1 + 0.05; // Warm orange/yellow range
-              const color = new THREE.Color().setHSL(hue, 0.9, 0.7);
-              colors[i3] = color.r;
-              colors[i3 + 1] = color.g;
-              colors[i3 + 2] = color.b;
-              sizes[i] = Math.random() * 0.15 + 0.08; // Larger but not too large
-            }
+            const hue = Math.random() * 0.2 + 0.6;
+            const color = new THREE.Color().setHSL(hue, 0.9, 0.9);
+            colors[i3] = color.r;
+            colors[i3 + 1] = color.g;
+            colors[i3 + 2] = color.b;
+            sizes[i] = Math.random() * 0.15 + 0.08;
+          }
+
+          // Invert colors for light mode
+          if (!isDarkMode) {
+            colors[i3] = 1 - colors[i3];
+            colors[i3 + 1] = 1 - colors[i3 + 1];
+            colors[i3 + 2] = 1 - colors[i3 + 2];
           }
         }
       };
