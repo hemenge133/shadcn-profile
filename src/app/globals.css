@@ -80,7 +80,7 @@
   }
 
   .prose :where(th) {
-    @apply font-bold p-3 text-foreground dark:text-foreground border-b border-border dark:border-border;
+    @apply font-bold p-3 text-foreground dark:text-foreground border-b border-border dark:border-border text-center;
     background-color: hsl(240, 4.8%, 90%);
   }
   
@@ -89,7 +89,7 @@
   }
 
   .prose :where(td) {
-    @apply p-3 align-middle border border-border/40 dark:border-border/40;
+    @apply p-3 align-middle border border-border/40 dark:border-border/40 text-center;
   }
 
   .prose :where(tbody tr:nth-child(odd)) {
@@ -100,20 +100,74 @@
     @apply bg-muted dark:bg-muted transition-colors;
   }
 
+  /* Research methods specific styling */
+  .prose :where(h2:has(+ ol), h2:has(+ ul)) {
+    @apply border-b pb-2 mb-4 border-border/50 dark:border-border/50;
+  }
+
+  .prose :where(ol) {
+    @apply list-decimal space-y-3;
+  }
+  
+  .prose ol > li > ul {
+    @apply mt-2 ml-2 list-disc space-y-1;
+  }
+  
+  .prose ol > li > ul > li {
+    @apply pl-2 ml-4 border-l-2 border-border/40 dark:border-border/40;
+  }
+
   /* Enhanced code block styling */
   .prose :where(pre) {
-    @apply p-4 rounded-lg overflow-x-auto text-sm my-4;
-    background-color: #2d2d2d; /* Dark background for code blocks */
-    color: #ccc; /* Light text for dark background */
+    @apply p-4 rounded-lg overflow-x-auto text-sm my-6 shadow-md;
+    background-color: #1e1e1e; /* Darker background for code blocks */
+    color: #d4d4d4; /* Better contrast text for dark background */
+  }
+  
+  .prose pre[class*="language-python"] {
+    @apply border-l-4 border-blue-500;
+  }
+  
+  .prose pre[class*="language-javascript"] {
+    @apply border-l-4 border-yellow-400;
+  }
+  
+  .prose pre[class*="language-typescript"] {
+    @apply border-l-4 border-blue-400;
   }
 
   .prose :where(code) {
-    @apply px-1.5 py-0.5 rounded;
+    @apply px-1.5 py-0.5 rounded font-mono;
     background-color: rgba(0, 0, 0, 0.1);
   }
 
   .dark .prose :where(code) {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Python syntax highlighting */
+  .python-keyword {
+    color: #569cd6; /* blue */
+  }
+  
+  .python-function {
+    color: #dcdcaa; /* yellow */
+  }
+  
+  .python-class {
+    color: #4ec9b0; /* teal */
+  }
+  
+  .python-string {
+    color: #ce9178; /* orange */
+  }
+  
+  .python-number {
+    color: #b5cea8; /* light green */
+  }
+  
+  .python-comment {
+    color: #6a9955; /* green */
   }
 
   /* Additional typography improvements */
@@ -146,7 +200,7 @@
   }
 
   .prose :where(blockquote) {
-    @apply italic bg-muted/30 dark:bg-muted/30 py-0.5 my-4;
+    @apply italic bg-muted/30 dark:bg-muted/30 py-2 px-4 my-4 rounded-r-lg;
   }
 
   body {
