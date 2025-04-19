@@ -3,6 +3,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation'; // To handle cases where project ID is invalid
 import Link from 'next/link'; // Make sure Link is imported
+import ReactMarkdown from 'react-markdown';
 
 import projectsData from '@/data/projects.json'; // Import the JSON data
 import { Project } from '@/types'; // Import the Project type
@@ -113,8 +114,8 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
 
       {/* Long Description */}
       <div className="prose prose-lg dark:prose-invert max-w-none mb-8">
-        {/* Using dangerouslySetInnerHTML if description contains HTML, otherwise just render */}
-        <p>{project.longDescription}</p>
+        {/* Using ReactMarkdown instead of a simple paragraph */}
+        <ReactMarkdown>{project.longDescription}</ReactMarkdown>
       </div>
 
       {/* Links */}

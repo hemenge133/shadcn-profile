@@ -50,6 +50,16 @@
     @apply border-solid border-0;
   }
 
+  /* Fix for prose content to avoid global border-0 rule */
+  .prose :where(blockquote, ol, ul, li, hr, table) {
+    @apply border-solid;
+    border-width: initial;
+  }
+
+  .prose :where(blockquote) {
+    @apply border-l-4 pl-4;
+  }
+
   body {
     font-family: var(--font-geist-sans);
   }

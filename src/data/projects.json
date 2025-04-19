@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Screen View MCP",
     "description": "Using Anthropic's MCP SDK to enable AI assistants to capture and analyze screenshots using Claude Vision API.",
-    "longDescription": "Detailed description about the Screen View MCP project, covering its architecture, challenges faced, and solutions implemented. It leverages the Claude Vision API for image analysis within the Multi-Capability Platform (MCP) ecosystem.",
+    "longDescription": "# Screen View MCP\n\nThis project implements a **Multi-Capability Platform (MCP)** integration that enables AI assistants to capture and analyze screenshots.\n\n## Features\n\n- Real-time screenshot capture\n- Integration with Claude Vision API for image analysis\n- Support for multiple screen resolutions\n- Cross-platform compatibility\n\n## Implementation Details\n\nThe project was built using:\n\n* TypeScript for type safety\n* Node.js for the backend\n* The Anthropic MCP SDK\n* Claude Vision API for image processing\n\n> This tool significantly enhances the capabilities of AI assistants, allowing them to directly observe and interact with what's on the user's screen.",
     "tags": ["TypeScript", "MCP SDK", "Claude Vision", "AI", "Node.js"],
     "imageUrl": "https://picsum.photos/seed/screen-view-mcp/600/400", 
     "images": [

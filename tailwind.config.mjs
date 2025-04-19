@@ -1,4 +1,5 @@
 import nesting from '@tailwindcss/nesting';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 const tailwindConfig = {
@@ -74,7 +75,7 @@ const tailwindConfig = {
       },
     },
   },
-  plugins: [nesting],
+  plugins: [nesting, typography],
 }
 
 export default tailwindConfig; 
