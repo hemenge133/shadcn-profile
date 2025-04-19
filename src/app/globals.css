@@ -69,22 +69,40 @@
     @apply border-l-4 pl-4;
   }
 
-  /* Additional prose styling for tables */
+  /* Enhanced table styling for markdown */
   .prose :where(table) {
-    @apply w-full border-collapse overflow-hidden;
+    @apply w-full border-collapse rounded-lg overflow-hidden my-6 shadow-sm;
+    border: 1px solid hsl(240, 3.7%, 25%);
   }
 
-  .prose :where(th, td) {
-    @apply p-2 border border-gray-300 dark:border-gray-700;
+  .prose :where(thead) {
+    @apply text-left bg-secondary dark:bg-secondary;
   }
 
   .prose :where(th) {
-    @apply bg-gray-100 dark:bg-gray-800;
+    @apply font-bold p-3 text-foreground dark:text-foreground border-b border-border dark:border-border;
+    background-color: hsl(240, 4.8%, 90%);
+  }
+  
+  .dark .prose :where(th) {
+    background-color: hsl(240, 10%, 20%);
+  }
+
+  .prose :where(td) {
+    @apply p-3 align-middle border border-border/40 dark:border-border/40;
+  }
+
+  .prose :where(tbody tr:nth-child(odd)) {
+    @apply bg-muted/40 dark:bg-muted/40;
+  }
+
+  .prose :where(tbody tr:hover) {
+    @apply bg-muted dark:bg-muted transition-colors;
   }
 
   /* Enhanced code block styling */
   .prose :where(pre) {
-    @apply p-4 rounded-lg overflow-x-auto text-sm;
+    @apply p-4 rounded-lg overflow-x-auto text-sm my-4;
     background-color: #2d2d2d; /* Dark background for code blocks */
     color: #ccc; /* Light text for dark background */
   }
@@ -96,6 +114,39 @@
 
   .dark .prose :where(code) {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Additional typography improvements */
+  .prose :where(h1, h2, h3, h4, h5, h6) {
+    @apply font-bold tracking-tight mt-8 mb-4;
+  }
+
+  .prose :where(h1) {
+    @apply text-3xl md:text-4xl;
+  }
+
+  .prose :where(h2) {
+    @apply text-2xl md:text-3xl;
+  }
+
+  .prose :where(h3) {
+    @apply text-xl md:text-2xl;
+  }
+
+  .prose :where(p) {
+    @apply my-4 leading-relaxed;
+  }
+
+  .prose :where(ul, ol) {
+    @apply my-6 ml-6;
+  }
+
+  .prose :where(li) {
+    @apply mb-2;
+  }
+
+  .prose :where(blockquote) {
+    @apply italic bg-muted/30 dark:bg-muted/30 py-0.5 my-4;
   }
 
   body {
