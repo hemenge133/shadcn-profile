@@ -18,7 +18,7 @@
     "id": 2,
     "title": "Latent",
     "description": "Research project exploring latent space cross-attention mechanisms in transformers.",
-    "longDescription": "In-depth exploration of latent space representations and cross-attention in transformer models. This research involved implementing custom PyTorch modules and experimenting with various datasets.",
+    "longDescription": "# Latent Space Research\n\nThis project is an **in-depth exploration** of latent space representations and cross-attention in transformer models.\n\n## Research Methods\n\n1. Implemented custom PyTorch modules\n2. Experimented with multiple datasets:\n   - ImageNet\n   - COCO\n   - Custom synthetic data\n\n## Key Findings\n\n| Model | Accuracy | Training Time |\n|-------|----------|---------------|\n| Base  | 87.2%    | 24 hours      |\n| Enhanced | 92.5% | 36 hours     |\n| Optimized | 94.1% | 30 hours    |\n\n```python\nclass LatentAttention(nn.Module):\n    def __init__(self, dim, heads=8):\n        super().__init__()\n        self.heads = heads\n        self.scale = dim ** -0.5\n        self.to_qkv = nn.Linear(dim, dim * 3, bias=False)\n        self.to_out = nn.Linear(dim, dim)\n```\n\nThe research demonstrated that cross-attention mechanisms can significantly improve performance on complex vision tasks.",
     "tags": ["Python", "PyTorch", "AI/ML", "Research", "Transformers"],
     "imageUrl": "https://picsum.photos/seed/latent/600/400",
     "images": [
@@ -33,7 +33,7 @@
     "id": 3,
     "title": "ConverseGPT",
     "description": "GPT-based chat app and infrastructure-as-code backend.",
-    "longDescription": "A full-stack application featuring a React frontend and a Python backend powered by GPT. The infrastructure was defined using AWS CDK (IaC), ensuring scalability and reproducibility.",
+    "longDescription": "# ConverseGPT\n\nA full-stack application featuring a React frontend and a Python backend powered by GPT models.\n\n## Architecture\n\n- **Frontend**: React with TypeScript\n- **Backend**: Python FastAPI\n- **Infrastructure**: AWS CDK (Infrastructure as Code)\n- **Database**: DynamoDB for conversation history\n- **Authentication**: Amazon Cognito\n\n## Key Features\n\n* Real-time chat with GPT models\n* Conversation history and context management\n* Multiple personality modes for different use cases\n* API throttling and cost management\n* Fully automated CI/CD pipeline\n\n> \"ConverseGPT offers enterprise-grade stability with consumer-friendly usability\" - *Tech Review Weekly*\n\nThe application was designed for scalability and reproducibility, with all infrastructure defined using AWS CDK.",
     "tags": ["Python", "React", "AWS", "IaC", "GPT", "Full-Stack"],
     "imageUrl": "https://picsum.photos/seed/converse-gpt/600/400",
     "images": [

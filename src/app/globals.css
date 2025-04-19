@@ -48,6 +48,15 @@
 
   * {
     @apply border-solid border-0;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Exclude animations from elements that shouldn't have them */
+  .no-transition, 
+  .no-transition * {
+    transition: none !important;
   }
 
   /* Fix for prose content to avoid global border-0 rule */
@@ -58,6 +67,35 @@
 
   .prose :where(blockquote) {
     @apply border-l-4 pl-4;
+  }
+
+  /* Additional prose styling for tables */
+  .prose :where(table) {
+    @apply w-full border-collapse overflow-hidden;
+  }
+
+  .prose :where(th, td) {
+    @apply p-2 border border-gray-300 dark:border-gray-700;
+  }
+
+  .prose :where(th) {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  /* Enhanced code block styling */
+  .prose :where(pre) {
+    @apply p-4 rounded-lg overflow-x-auto text-sm;
+    background-color: #2d2d2d; /* Dark background for code blocks */
+    color: #ccc; /* Light text for dark background */
+  }
+
+  .prose :where(code) {
+    @apply px-1.5 py-0.5 rounded;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .prose :where(code) {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   body {
