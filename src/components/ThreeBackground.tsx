@@ -52,7 +52,7 @@ export default function ThreeBackground() {
         0.1,
         2000
       );
-      camera.position.z = 15;
+      camera.position.z = 5;
 
       // Save camera reference for resize handling
       activeCamera = camera;
@@ -273,7 +273,7 @@ export default function ThreeBackground() {
       let animationId: number;
 
       // Fade-in animation variables
-      const fadeInDuration = 10.0; // Slower fade-in over 10 seconds
+      const fadeInDuration = 5.0; // Slower fade-in over 10 seconds
       const targetOpacity = 0.7; // Final opacity value
       const startTime = clock.getElapsedTime();
       let isFadingIn = true;
