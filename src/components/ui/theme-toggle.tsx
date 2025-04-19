@@ -1,14 +1,14 @@
 'use client';
 
 import * as React from 'react';
-import { Moon, Sun, Monitor } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Ensure the component is mounted to avoid hydration mismatch
@@ -16,12 +16,10 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  // Function to get the next theme in the rotation (light -> dark -> system)
-  const cycleTheme = () => {
-    if (theme === 'light') {
+  // Function to toggle between light and dark mode only
+  const toggleTheme = () => {
+    if (resolvedTheme === 'light') {
       setTheme('dark');
-    } else if (theme === 'dark') {
-      setTheme('system');
     } else {
       setTheme('light');
     }
@@ -31,9 +29,7 @@ export function ThemeToggle() {
   const getThemeIcon = () => {
     if (!mounted) return null;
 
-    if (theme === 'system') {
-      return <Monitor className="h-[1.2rem] w-[1.2rem]" />;
-    } else if (theme === 'dark' || resolvedTheme === 'dark') {
+    if (resolvedTheme === 'dark') {
       return <Moon className="h-[1.2rem] w-[1.2rem]" />;
     } else {
       return <Sun className="h-[1.2rem] w-[1.2rem]" />;
@@ -44,13 +40,7 @@ export function ThemeToggle() {
   const getTooltipText = () => {
     if (!mounted) return 'Toggle theme';
 
-    if (theme === 'system') {
-      return `Using system theme (${resolvedTheme === 'dark' ? 'dark' : 'light'})`;
-    } else if (theme === 'dark') {
-      return 'Dark theme';
-    } else {
-      return 'Light theme';
-    }
+    return resolvedTheme === 'dark' ? 'Dark theme' : 'Light theme';
   };
 
   // Placeholder for the loading state
@@ -73,7 +63,7 @@ export function ThemeToggle() {
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-md flex items-center justify-center focus-visible:ring-1 focus-visible:ring-ring"
-              onClick={cycleTheme}
+              onClick={toggleTheme}
               aria-label={getTooltipText()}
             >
               {getThemeIcon()}
