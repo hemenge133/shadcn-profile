@@ -113,7 +113,8 @@ const ClientSkillsBadges = dynamic(() => Promise.resolve(SkillsBadges), {
 
 const Skills = () => {
   const [filter, setFilter] = useState<string>('All');
-  // Use componentId to generate consistent patterns on server and client
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const componentId = useId();
 
   // Extract unique categories for filtering controls

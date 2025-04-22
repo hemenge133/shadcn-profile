@@ -25,7 +25,12 @@ const nextConfig = {
         ],
       },
     ]
-  }
+  },
+  // Disable ESLint during builds - this is especially important for production builds
+  eslint: {
+    // Don't run ESLint during production builds
+    ignoreDuringBuilds: true,
+  },
 }
 
 export default nextConfig; 

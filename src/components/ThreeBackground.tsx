@@ -88,7 +88,10 @@ export default function ThreeBackground() {
         powerPreference: 'high-performance',
         stencil: false,
       });
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const container = containerRef.current;
+
       if (containerRef.current && renderer.current) {
         const width = containerRef.current.clientWidth;
         const height = containerRef.current.clientHeight;

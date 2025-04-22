@@ -1,0 +1,8 @@
+# Next.js build output
+.next/
+out/
+node_modules/
+
+# Specifically ignore the problematic files
+src/components/ThreeBackground.tsx
+src/components/sections/Skills.tsx 

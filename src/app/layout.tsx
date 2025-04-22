@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  colorScheme: 'light dark',
 };
 
 export const metadata: Metadata = {
@@ -27,7 +28,6 @@ export const metadata: Metadata = {
     'Software Engineer, Full-Stack Developer, Portfolio, Distributed Systems, AI/ML, React, Next.js',
   authors: [{ name: 'Hayden Menge' }],
   creator: 'Hayden Menge',
-  colorScheme: 'light dark',
   openGraph: {
     type: 'website',
     locale: 'en_US',
