@@ -29,7 +29,6 @@ export default function Home() {
       {/* Add a fixed black background div that's consistent across browsers */}
       <div className="fixed inset-0 -z-20 bg-black"></div>
       <div className="relative z-10">
-        <div style={{ width: '100px', height: '100px', backgroundColor: '#000' }}></div>
         <Hero />
         <Projects />
         <Skills />

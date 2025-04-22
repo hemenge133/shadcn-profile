@@ -183,7 +183,16 @@ export default function ThreeBackground() {
 
         // Create a consistent color converter function - SIMPLIFIED
         const createColor = (hue: number, saturation: number, lightness: number) => {
-          // Create basic color with no adjustments
+          // In light mode, we want darker particles
+          if (!isDarkMode) {
+            // For light mode: shift hue to blue-purple range and make them darker
+            return new THREE.Color().setHSL(
+              0.6 + Math.random() * 0.2, // Blue to purple hue range
+              saturation * 0.8, // Slightly reduced saturation
+              0.2 + lightness * 0.3 // Much darker (0.2-0.5 range)
+            );
+          }
+          // For dark mode: keep original bright blue-cyan particles
           return new THREE.Color().setHSL(hue, saturation, lightness);
         };
 
@@ -241,12 +250,13 @@ export default function ThreeBackground() {
           colors[i3 + 1] = color.g;
           colors[i3 + 2] = color.b;
 
-          // Invert colors for light mode
-          if (!isDarkMode) {
-            colors[i3] = 1 - colors[i3];
-            colors[i3 + 1] = 1 - colors[i3 + 1];
-            colors[i3 + 2] = 1 - colors[i3 + 2];
-          }
+          // No need to invert colors anymore, as we're directly creating appropriate colors
+          // for each theme in the createColor function
+          // if (!isDarkMode) {
+          //   colors[i3] = 1 - colors[i3];
+          //   colors[i3 + 1] = 1 - colors[i3 + 1];
+          //   colors[i3 + 2] = 1 - colors[i3 + 2];
+          // }
         }
       };
 

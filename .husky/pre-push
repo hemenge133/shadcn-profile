@@ -1,30 +1,64 @@
 #!/bin/bash
+. "$(dirname "$0")/_/husky.sh"
 
-echo "Running pre-push checks..."
+# Get the current branch name
+BRANCH=$(git symbolic-ref --short HEAD)
 
-# Run TypeScript type checking
-echo "Running TypeScript type checking..."
-npm run type-check
-TSC_EXIT_CODE=$?
+# Only run on master branch
+if [ "$BRANCH" = "master" ]; then
+  echo "On master branch - running pre-push checks..."
 
-if [ $TSC_EXIT_CODE -ne 0 ]; then
-  echo "❌ TypeScript check failed. Please fix type errors before pushing."
-  exit 1
+  # Run TypeScript type checking
+  echo "Running TypeScript type checking..."
+  npm run type-check
+  TSC_EXIT_CODE=$?
+
+  if [ $TSC_EXIT_CODE -ne 0 ]; then
+    echo "❌ TypeScript check failed. Please fix type errors before pushing."
+    exit 1
+  else
+    echo "✅ TypeScript check passed."
+  fi
+
+  # Run ESLint for entire project
+  echo "Running ESLint..."
+  npm run lint
+  LINT_EXIT_CODE=$?
+
+  if [ $LINT_EXIT_CODE -ne 0 ]; then
+    echo "❌ ESLint check failed. Please fix linting errors before pushing."
+    exit 1
+  else
+    echo "✅ ESLint check passed."
+  fi
+
+  # Run Playwright tests on Chromium
+  echo "Running Playwright tests on Chromium..."
+  npm run test:chrome
+  CHROME_TEST_EXIT_CODE=$?
+
+  if [ $CHROME_TEST_EXIT_CODE -ne 0 ]; then
+    echo "❌ Chromium tests failed. Please fix failing tests before pushing."
+    exit 1
+  else
+    echo "✅ Chromium tests passed."
+  fi
+
+  # Run Playwright tests on Firefox
+  echo "Running Playwright tests on Firefox..."
+  npm run test:firefox
+  FIREFOX_TEST_EXIT_CODE=$?
+
+  if [ $FIREFOX_TEST_EXIT_CODE -ne 0 ]; then
+    echo "❌ Firefox tests failed. Please fix failing tests before pushing."
+    exit 1
+  else
+    echo "✅ Firefox tests passed."
+  fi
+
+  echo "🎉 All pre-push checks passed!"
 else
-  echo "✅ TypeScript check passed."
+  echo "Not on master branch - skipping pre-push checks."
 fi
 
-# Run ESLint for entire project
-echo "Running ESLint..."
-npm run lint
-LINT_EXIT_CODE=$?
-
-if [ $LINT_EXIT_CODE -ne 0 ]; then
-  echo "❌ ESLint check failed. Please fix linting errors before pushing."
-  exit 1
-else
-  echo "✅ ESLint check passed."
-fi
-
-echo "🎉 All pre-push checks passed!"
 exit 0

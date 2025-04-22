@@ -28,14 +28,20 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-    // Mobile devices
+    // Mobile devices - explicitly skip for Firefox
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
+      // Skip mobile tests for Firefox since it doesn't support mobile emulation
+      grep: /.*/,
+      grepInvert: /firefox/i,
     },
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
+      // Skip mobile tests for Firefox since it doesn't support mobile emulation
+      grep: /.*/,
+      grepInvert: /firefox/i,
     },
   ],
   webServer: {

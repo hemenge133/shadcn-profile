@@ -19,7 +19,19 @@
     "list": "node scripts/dev.js list",
     "generate": "node scripts/dev.js generate",
     "parse-prd": "node scripts/dev.js parse-prd",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui --project=chromium",
+    "test:headed": "playwright test --headed --project=chromium",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:theme-toggle": "playwright test theme-toggle.spec.ts --project=chromium",
+    "test:visual": "playwright test visual-regression.spec.ts --project=chromium",
+    "test:mobile": "playwright test mobile-behavior.spec.ts --project='Mobile Chrome'",
+    "test:desktop": "playwright test --project=chromium",
+    "test:accessibility": "playwright test theme-toggle.spec.ts@'should be keyboard accessible' --project=chromium",
+    "test:install-browsers": "playwright install chromium firefox webkit",
+    "test:debug": "playwright test --debug --project=chromium"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -69,6 +81,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^18",

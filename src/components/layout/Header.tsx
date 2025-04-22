@@ -93,8 +93,8 @@ const Header = () => {
                   onClick={() => handleScroll(item.id)}
                   className={`transition-colors px-3 py-1 h-9 text-base font-medium rounded-md ${
                     activeSection === item.id
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                      ? 'bg-secondary text-secondary-foreground hover:bg-secondary/90'
+                      : 'bg-primary text-primary-foreground hover:bg-primary/90'
                   }`}
                 >
                   {item.label}

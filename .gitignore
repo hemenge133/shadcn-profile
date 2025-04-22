@@ -63,4 +63,9 @@ next-env.d.ts
 .cursor
 
 # Added by Claude Task Master
-tasks/ 
+tasks/
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/ 

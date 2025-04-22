@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['images.unsplash.com'],
+    domains: ['images.unsplash.com', 'picsum.photos'],
   },
   // Add HTML metadata for better cross-browser color handling
   async headers() {

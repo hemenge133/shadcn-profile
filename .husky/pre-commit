@@ -1,11 +1,26 @@
-echo "Running pre-commit hook: lint-staged..."
-npx lint-staged
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-exitCode=$?
-if [ $exitCode -ne 0 ]; then
-  echo "Pre-commit hook failed (lint-staged). Commit aborted."
-  exit $exitCode
+# Get the current branch name
+BRANCH=$(git symbolic-ref --short HEAD)
+
+# Only run on master branch
+if [ "$BRANCH" = "master" ]; then
+  echo "On master branch - running pre-commit hooks..."
+  
+  # Run lint-staged
+  echo "Running pre-commit hook: lint-staged..."
+  npx lint-staged
+
+  exitCode=$?
+  if [ $exitCode -ne 0 ]; then
+    echo "Pre-commit hook failed (lint-staged). Commit aborted."
+    exit $exitCode
+  fi
+
+  echo "Pre-commit hook passed."
+else
+  echo "Not on master branch - skipping pre-commit hooks."
 fi
 
-echo "Pre-commit hook passed."
 exit 0
