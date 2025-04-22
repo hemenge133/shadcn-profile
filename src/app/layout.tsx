@@ -27,6 +27,7 @@ export const metadata: Metadata = {
     'Software Engineer, Full-Stack Developer, Portfolio, Distributed Systems, AI/ML, React, Next.js',
   authors: [{ name: 'Hayden Menge' }],
   creator: 'Hayden Menge',
+  colorScheme: 'light dark',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -62,6 +63,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="color-profile" content="sRGB" />
+        <meta name="color-gamut" content="srgb" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}

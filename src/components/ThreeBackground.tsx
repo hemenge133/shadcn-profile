@@ -21,12 +21,36 @@ function debounce(func: (...args: unknown[]) => void, wait: number) {
 export default function ThreeBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme, resolvedTheme } = useTheme();
+  const scene = useRef<THREE.Scene | null>(null);
+  const renderer = useRef<THREE.WebGLRenderer | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     // Track if the component is mounted
     let isMounted = true;
+
+    // Detect browser for color correction
+    const detectBrowser = () => {
+      if (typeof window === 'undefined' || !window.navigator) {
+        return 'unknown';
+      }
+      const ua = window.navigator.userAgent;
+      if (ua.includes('Firefox')) {
+        return 'firefox';
+      } else if (ua.includes('Chrome')) {
+        return 'chrome';
+      } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+        return 'safari';
+      } else if (ua.includes('Edge')) {
+        return 'edge';
+      } else {
+        return 'unknown';
+      }
+    };
+
+    const browserType = detectBrowser();
+    console.log('Browser detected:', browserType); // Debugging log
 
     // Keep references to important objects for resize handling
     let activeRenderer: THREE.WebGLRenderer | null = null;
@@ -40,7 +64,7 @@ export default function ThreeBackground() {
       }
 
       // Initialize the scene
-      const scene = new THREE.Scene();
+      scene.current = new THREE.Scene();
 
       // Determine if we're in dark or light mode
       const currentTheme = theme === 'dark' || resolvedTheme === 'dark' ? 'dark' : 'light';
@@ -57,19 +81,37 @@ export default function ThreeBackground() {
       // Save camera reference for resize handling
       activeCamera = camera;
 
-      // Create renderer
-      const renderer = new THREE.WebGLRenderer({
-        antialias: false,
+      // Create renderer with simplified settings
+      renderer.current = new THREE.WebGLRenderer({
         alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+        stencil: false,
       });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
+      const container = containerRef.current;
+      if (containerRef.current && renderer.current) {
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+        renderer.current.setSize(width, height);
+      }
+
+      // SIMPLIFY: Force consistent black background like the 404 page
+      if (renderer.current) {
+        renderer.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        // Force pure black background, no transparency
+        renderer.current.setClearColor(0x000000, 1);
+        // Use a valid color space - SRGBColorSpace is safer than NoColorSpace
+        renderer.current.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.current.toneMapping = THREE.NoToneMapping;
+      }
 
       // Save renderer reference for resize handling
-      activeRenderer = renderer;
+      activeRenderer = renderer.current;
 
       // Add to DOM
-      containerRef.current?.appendChild(renderer.domElement);
+      if (containerRef.current && renderer.current) {
+        containerRef.current.appendChild(renderer.current.domElement);
+      }
 
       // Calculate scene boundaries based on camera properties
       const getBoundaries = () => {
@@ -136,6 +178,12 @@ export default function ThreeBackground() {
         const orbitThickness = 8; // How thick the orbit stream is
         const orbitVariation = 4; // Vertical variation in orbit plane
 
+        // Create a consistent color converter function - SIMPLIFIED
+        const createColor = (hue: number, saturation: number, lightness: number) => {
+          // Create basic color with no adjustments
+          return new THREE.Color().setHSL(hue, saturation, lightness);
+        };
+
         for (let i = 0; i < particleCount; i++) {
           const i3 = i * 3;
 
@@ -168,33 +216,27 @@ export default function ThreeBackground() {
           // Add some brighter particles to represent main stars
           const particleType = Math.random();
 
-          // Generate base color and size using dark-mode palette
+          // Generate base color and size using a more consistent approach
+          let color;
           if (particleType < 0.5) {
-            const color = new THREE.Color().setHSL(0.6 + Math.random() * 0.1, 0.7, 0.7);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
+            color = createColor(0.6 + Math.random() * 0.1, 0.8, 0.7); // Increased saturation from 0.7 to 0.8
             sizes[i] = Math.random() * 0.05 + 0.02;
           } else if (particleType < 0.8) {
-            const color = new THREE.Color().setHSL(0.7 + Math.random() * 0.1, 0.7, 0.7);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
+            color = createColor(0.65 + Math.random() * 0.1, 0.85, 0.7); // Increased saturation from 0.7 to 0.85
             sizes[i] = Math.random() * 0.05 + 0.02;
           } else if (particleType < 0.95) {
-            const color = new THREE.Color().setHSL(0.5 + Math.random() * 0.1, 0.7, 0.9);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
+            color = createColor(0.5 + Math.random() * 0.1, 0.85, 0.9); // Increased saturation from 0.7 to 0.85
             sizes[i] = Math.random() * 0.08 + 0.04;
           } else {
-            const hue = Math.random() * 0.2 + 0.6;
-            const color = new THREE.Color().setHSL(hue, 0.9, 0.9);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
+            const hue = Math.random() * 0.2 + 0.6; // Keep in the blue range
+            color = createColor(hue, 0.95, 0.9); // Increased saturation from 0.9 to 0.95
             sizes[i] = Math.random() * 0.15 + 0.08;
           }
+
+          // Store color values
+          colors[i3] = color.r;
+          colors[i3 + 1] = color.g;
+          colors[i3 + 2] = color.b;
 
           // Invert colors for light mode
           if (!isDarkMode) {
@@ -225,11 +267,9 @@ export default function ThreeBackground() {
         blending: THREE.AdditiveBlending,
       });
 
-      // Create shader material for custom opacity per particle
+      // Create shader material for custom opacity per particle - SIMPLIFIED
       const shaderMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-          pointTexture: { value: null },
-        },
+        uniforms: {},
         vertexShader: `
           attribute float opacity;
           varying float vOpacity;
@@ -249,12 +289,12 @@ export default function ThreeBackground() {
           varying float vOpacity;
           
           void main() {
-            // Simple circular particle shape
             float r = 0.5;
             vec2 center = vec2(0.5, 0.5);
             float distance = length(gl_PointCoord - center);
             float alpha = smoothstep(r, r - 0.05, distance) * vOpacity;
             
+            // No color adjustments, pure color output
             gl_FragColor = vec4(vColor, alpha);
           }
         `,
@@ -266,7 +306,7 @@ export default function ThreeBackground() {
 
       // Create particle system with shader material
       const particleSystem = new THREE.Points(particles, shaderMaterial);
-      scene.add(particleSystem);
+      scene.current?.add(particleSystem);
 
       // Animation loop
       const clock = new THREE.Clock();
@@ -352,7 +392,12 @@ export default function ThreeBackground() {
         // Disable mouse-based camera movement
         // camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
         // camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
-        camera.lookAt(scene.position);
+        // Look at scene center
+        if (camera && scene.current) {
+          camera.lookAt(scene.current.position);
+        } else if (camera) {
+          camera.lookAt(new THREE.Vector3());
+        }
 
         // Get current bounds
         const halfWidth = bounds.width / 2;
@@ -527,7 +572,9 @@ export default function ThreeBackground() {
         particleSystem.rotation.y += 0.0005;
 
         // Render scene
-        renderer.render(scene, camera);
+        if (renderer.current && scene.current && camera) {
+          renderer.current.render(scene.current, camera);
+        }
 
         // Continue animation loop
         animationId = requestAnimationFrame(animate);
@@ -542,7 +589,7 @@ export default function ThreeBackground() {
           cancelAnimationFrame(animationId);
           particles.dispose();
           material.dispose();
-          renderer.dispose();
+          renderer.current?.dispose();
 
           // Clear references
           activeRenderer = null;
@@ -656,9 +703,9 @@ export default function ThreeBackground() {
         aria-hidden="true"
       />
 
-      {/* Blur Overlay - provides the subtle blur effect */}
+      {/* Blur Overlay - provides the subtle blur effect without any tint */}
       <div
-        className="fixed inset-0 -z-10 backdrop-blur-[2px] bg-white/5 dark:bg-black/5 pointer-events-none"
+        className="fixed inset-0 -z-10 backdrop-blur-[1px] pointer-events-none"
         aria-hidden="true"
       />
     </>

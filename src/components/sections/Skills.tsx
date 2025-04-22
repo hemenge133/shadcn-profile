@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button'; // Using buttons for filtering
+import { motion } from 'motion/react';
+import dynamic from 'next/dynamic';
 
 // Define a structure for individual skills
 interface Skill {
@@ -61,8 +63,58 @@ const allSkills: Skill[] = [
   { name: 'Playwright', category: 'Testing' },
 ];
 
+// Predefined rotation values to avoid hydration mismatch
+const rotationValues = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+
+// Create a client-side only component for the skills badges to avoid hydration issues
+const SkillsBadges = ({ filteredSkills }: { filteredSkills: Skill[] }) => {
+  // Function to get deterministic rotation based on index
+  const getRotation = (index: number) => {
+    return rotationValues[index % rotationValues.length];
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto"
+    >
+      {filteredSkills.map((skill, index) => (
+        <motion.div
+          key={skill.name + skill.category}
+          initial={{ opacity: 0, rotate: getRotation(index), scale: 0.9 }}
+          whileInView={{ opacity: 1, rotate: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{
+            duration: 0.5,
+            delay: 0.1 + (index % 10) * 0.05,
+            type: 'spring',
+            damping: 8,
+          }}
+        >
+          <Badge
+            variant="secondary"
+            className="text-sm px-3 py-1 transition-all duration-300 ease-in-out"
+          >
+            {skill.name}
+          </Badge>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};
+
+// Use dynamic import with SSR disabled to avoid hydration issues
+const ClientSkillsBadges = dynamic(() => Promise.resolve(SkillsBadges), {
+  ssr: false,
+});
+
 const Skills = () => {
   const [filter, setFilter] = useState<string>('All');
+  // Use componentId to generate consistent patterns on server and client
+  const componentId = useId();
 
   // Extract unique categories for filtering controls
   const categories = ['All', ...new Set(allSkills.map((skill) => skill.category))];
@@ -72,36 +124,52 @@ const Skills = () => {
     filter === 'All' ? allSkills : allSkills.filter((skill) => skill.category === filter);
 
   return (
-    <section id="skills" className="py-16">
+    <section id="skills" className="py-16 bg-secondary/50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Skills & Technologies</h2>
+        <motion.h2
+          initial={{ opacity: 0, rotate: -3 }}
+          whileInView={{ opacity: 1, rotate: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-bold text-center mb-12"
+        >
+          Skills & Technologies
+        </motion.h2>
 
         {/* Filtering Controls */}
-        <div className="flex justify-center flex-wrap gap-3 mb-10">
-          {categories.map((category) => (
-            <Button
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="flex justify-center flex-wrap gap-3 mb-10"
+        >
+          {categories.map((category, index) => (
+            <motion.div
               key={category}
-              variant={filter === category ? 'default' : 'outline'}
-              onClick={() => setFilter(category)}
-              size="sm" // Make buttons slightly smaller
+              initial={{ opacity: 0, rotate: -5 }}
+              whileInView={{ opacity: 1, rotate: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.5,
+                delay: 0.2 + index * 0.05,
+                type: 'spring',
+                stiffness: 200,
+              }}
             >
-              {category}
-            </Button>
+              <Button
+                variant={filter === category ? 'default' : 'outline'}
+                onClick={() => setFilter(category)}
+                size="sm" // Make buttons slightly smaller
+              >
+                {category}
+              </Button>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Justified Grid of Badges */}
-        <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
-          {filteredSkills.map((skill) => (
-            <Badge
-              key={skill.name + skill.category} // Use combo key due to Python in multiple categories
-              variant="secondary"
-              className="text-sm px-3 py-1 transition-all duration-300 ease-in-out"
-            >
-              {skill.name}
-            </Badge>
-          ))}
-        </div>
+        {/* Client-side rendered skills badges */}
+        <ClientSkillsBadges filteredSkills={filteredSkills} />
       </div>
     </section>
   );

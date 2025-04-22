@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { motion } from 'motion/react';
 
 // Data structure for experience
 interface ExperienceItem {
@@ -13,7 +14,7 @@ interface ExperienceItem {
 const education = 'The University of Florida, B.Sc in Computer Engineering';
 const experience: ExperienceItem[] = [
   {
-    role: 'Software Engineer',
+    role: 'Senior Associate Database Engineer',
     company: 'Salesforce',
     period: '2024-Present', // Duration not applicable
     blurb: '', // No details provided in resume snippet
@@ -42,54 +43,96 @@ const About = () => {
   return (
     <section id="about" className="py-16 bg-secondary/50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">About Me</h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-bold text-center mb-12"
+        >
+          About Me
+        </motion.h2>
 
         <div className="max-w-4xl mx-auto flex flex-col gap-8">
           {/* Personal Bio Card */}
-          <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-xl">Bio</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{personalBio}</p>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle className="text-xl">Bio</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{personalBio}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Experience Card */}
-          <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-xl">Experience</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {experience.map((item) => (
-                  <li key={item.company + item.role} className="mb-4 pb-4 border-b last:border-b-0">
-                    <h3 className="font-semibold">{item.role}</h3>
-                    <p className="text-sm text-primary">{item.company}</p>
-                    <p className="text-xs text-muted-foreground mb-2">{item.period}</p>
-                    {/* Added blurb rendering */}
-                    {item.blurb && (
-                      <p className="text-sm text-muted-foreground italic">{item.blurb}</p>
-                    )}
-                  </li>
-                ))}
-                {/* Moved location info outside the loop */}
-                <li className="mt-4">
-                  <p className="text-sm text-muted-foreground">Location: {location}</p>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle className="text-xl">Experience</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-4">
+                  {experience.map((item, index) => (
+                    <motion.li
+                      key={item.company + item.role}
+                      className="mb-4 pb-4 border-b last:border-b-0"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                    >
+                      <h3 className="font-semibold">{item.role}</h3>
+                      <p className="text-sm text-primary">{item.company}</p>
+                      <p className="text-xs text-muted-foreground mb-2">{item.period}</p>
+                      {/* Added blurb rendering */}
+                      {item.blurb && (
+                        <p className="text-sm text-muted-foreground italic">{item.blurb}</p>
+                      )}
+                    </motion.li>
+                  ))}
+                  {/* Moved location info outside the loop */}
+                  <motion.li
+                    className="mt-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  >
+                    <p className="text-sm text-muted-foreground">Location: {location}</p>
+                  </motion.li>
+                </ul>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Education Card */}
-          <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-xl">Education</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{education}</p>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <Card className="shadow-md">
+              <CardHeader>
+                <CardTitle className="text-xl">Education</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">{education}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Optional Resume Download */}
           {/* 

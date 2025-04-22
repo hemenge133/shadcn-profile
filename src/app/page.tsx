@@ -9,14 +9,13 @@ import dynamic from 'next/dynamic';
 // Contact component no longer needed as we've added CTAs to the Hero section
 
 // Dynamic import with client-side only rendering
-const DynamicThreeBackground = dynamic(
-  () => import('@/components/DynamicThreeBackground'),
-  { ssr: false }
-);
+const DynamicThreeBackground = dynamic(() => import('@/components/DynamicThreeBackground'), {
+  ssr: false,
+});
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
-  
+
   // Only render the background on the client side
   useEffect(() => {
     setIsMounted(true);
@@ -27,8 +26,10 @@ export default function Home() {
       {/* Render the background only on client side */}
       {isMounted && <DynamicThreeBackground />}
 
-      {/* Main content with z-index to ensure it's above the background */}
+      {/* Add a fixed black background div that's consistent across browsers */}
+      <div className="fixed inset-0 -z-20 bg-black"></div>
       <div className="relative z-10">
+        <div style={{ width: '100px', height: '100px', backgroundColor: '#000' }}></div>
         <Hero />
         <Projects />
         <Skills />

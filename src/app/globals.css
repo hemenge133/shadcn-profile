@@ -55,8 +55,41 @@
     transition-duration: 200ms;
   }
 
+  html {
+    scroll-behavior: smooth;
+    /* Force color-profile handling to be consistent */
+    color-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Fix for cross-browser background color compatibility */
+  .bg-secondary\/50 {
+    background-color: rgba(var(--secondary), 0.5) !important;
+  }
+  
+  /* Ensure alternating section backgrounds */
+  section#skills,
+  section#about,
+  section#projects {
+    background-color: rgba(var(--secondary), 0.5);
+  }
 
-html {
-  scroll-behavior: smooth;
+  /* Ensure consistent color handling across browsers */
+  canvas {
+    color-rendering: optimizeSpeed;
+  }
 }
+
+/* Additional helper classes for debugging */
+.debug-border {
+  border: 1px solid red;
+}
+
+/* Cross-browser color profile handling */
+@supports (color-gamut: srgb) {
+  :root {
+    color-profile: srgb;
+    color-rendering: optimizeQuality;
+  }
 }
