@@ -1,8 +1,29 @@
 import { test, expect } from '@playwright/test';
-import { toggleTheme, getCurrentTheme, toggleThemeFirefox } from './utils/test-helpers';
+import {
+  toggleTheme,
+  getCurrentTheme,
+  toggleThemeFirefox,
+  waitForPageStable,
+} from './utils/test-helpers';
 
 // Define a separate test group for tests with animated/dynamic content
 const dynamicTest = test.extend({});
+
+// Set up test context to disable animations
+test.beforeEach(async ({ page }) => {
+  // Disable animations before running visual tests
+  await page.addStyleTag({
+    content: `
+      *, *::before, *::after {
+        animation-duration: 0.0001s !important;
+        transition-duration: 0.0001s !important;
+        animation-delay: 0.0001s !important;
+        transition-delay: 0.0001s !important;
+        animation-play-state: paused !important;
+      }
+    `,
+  });
+});
 
 test.describe('Visual Regression Tests', () => {
   test('should maintain consistent UI appearance after theme toggle', async ({
@@ -10,6 +31,7 @@ test.describe('Visual Regression Tests', () => {
     browserName,
   }) => {
     await page.goto('/');
+    await waitForPageStable(page);
 
     // Make sure page is fully loaded
     await page.waitForLoadState('networkidle');
@@ -17,7 +39,7 @@ test.describe('Visual Regression Tests', () => {
     // Special handling for Firefox
     if (browserName === 'firefox') {
       console.log('Using Firefox-specific approach for visual regression test');
-      await page.waitForTimeout(5000); // Give Firefox more time to load
+      await page.waitForTimeout(3000);
 
       // Get initial theme
       const initialTheme = await getCurrentTheme(page);
@@ -49,12 +71,12 @@ test.describe('Visual Regression Tests', () => {
   // New test: Header appearance in both themes
   test('header should maintain consistent appearance in both themes', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await waitForPageStable(page);
 
     // Take screenshot of header in initial theme
     const initialTheme = await getCurrentTheme(page);
 
-    await page.waitForTimeout(1500); // Wait for any animations
+    await page.waitForTimeout(3000); // Wait for any animations and images to fully load
 
     // Capture the header
     const header = page.locator('header');
@@ -67,11 +89,12 @@ test.describe('Visual Regression Tests', () => {
     await expect(headerScreenshot).toMatchSnapshot(`header-${initialTheme}.png`, {
       maxDiffPixelRatio: 0.05, // Allow up to 5% of pixels to be different
       threshold: 0.2, // More tolerant threshold for subtle animations
+      maxDiffPixels: 300, // Allow absolute pixel difference for different resolutions
     });
 
     // Toggle theme
     const newTheme = await toggleTheme(page);
-    await page.waitForTimeout(1500); // Wait for theme transition
+    await page.waitForTimeout(3000); // Wait for theme transition
 
     // Take screenshot of header in new theme
     const headerScreenshotAfterToggle = await header.screenshot();
@@ -80,14 +103,15 @@ test.describe('Visual Regression Tests', () => {
     await expect(headerScreenshotAfterToggle).toMatchSnapshot(`header-${newTheme}.png`, {
       maxDiffPixelRatio: 0.05,
       threshold: 0.2,
+      maxDiffPixels: 300, // Allow absolute pixel difference for different resolutions
     });
   });
 
   // New test: Test page content sections in different themes
   test('main page sections should render correctly in both themes', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1500); // Wait for any animations
+    await waitForPageStable(page);
+    await page.waitForTimeout(3000); // Wait for any animations and images to fully load
 
     // Get initial theme
     const initialTheme = await getCurrentTheme(page);
@@ -100,19 +124,21 @@ test.describe('Visual Regression Tests', () => {
     // Take screenshot of main content in initial theme
     const mainContentScreenshot = await mainContent.screenshot();
     await expect(mainContentScreenshot).toMatchSnapshot(`main-content-${initialTheme}.png`, {
-      maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-      threshold: 0.5, // More tolerant threshold for animations
+      maxDiffPixelRatio: 0.1, // Reduce from 30% to 10% for better accuracy
+      threshold: 0.5, // Keep tolerance for animations
+      maxDiffPixels: 500, // Allow absolute pixel difference to handle different resolutions
     });
 
     // Toggle theme
     const newTheme = await toggleTheme(page);
-    await page.waitForTimeout(1500); // Wait for theme transition
+    await page.waitForTimeout(3000); // Wait for theme transition
 
     // Take screenshot of main content in new theme
     const mainContentAfterToggle = await mainContent.screenshot();
     await expect(mainContentAfterToggle).toMatchSnapshot(`main-content-${newTheme}.png`, {
-      maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-      threshold: 0.5, // More tolerant threshold for animations
+      maxDiffPixelRatio: 0.1, // Reduce from 30% to 10% for better accuracy
+      threshold: 0.5, // Keep tolerance for animations
+      maxDiffPixels: 500, // Allow absolute pixel difference to handle different resolutions
     });
   });
 
@@ -132,14 +158,15 @@ test.describe('Visual Regression Tests', () => {
 
       // Navigate to the page
       await page.goto('/');
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(1500); // Wait for any responsive adjustments
+      await waitForPageStable(page);
+      await page.waitForTimeout(3000); // Wait for any animations and images to fully load
 
       // Take full page screenshot
       const fullPageScreenshot = await page.screenshot({ fullPage: true });
       await expect(fullPageScreenshot).toMatchSnapshot(`responsive-${bp.name}.png`, {
-        maxDiffPixelRatio: 0.25, // Allow up to 25% of pixels to be different
-        threshold: 0.4, // More tolerant threshold for animations/ThreeJS
+        maxDiffPixelRatio: 0.1, // Reduce from 25% to 10% for better accuracy
+        threshold: 0.4, // Keep threshold for animations
+        maxDiffPixels: 1000, // Higher allowance for full page screenshots
       });
     }
   });
@@ -147,8 +174,8 @@ test.describe('Visual Regression Tests', () => {
   // New test: Project page appearance (if it exists)
   test('projects section should maintain consistent appearance', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1500); // Wait for animations
+    await waitForPageStable(page);
+    await page.waitForTimeout(3000); // Wait for any animations and images to fully load
 
     // Look for a projects section or projects link
     const projectsSection = page.locator('section:has-text("Projects")');
@@ -162,20 +189,22 @@ test.describe('Visual Regression Tests', () => {
       await expect(projectsSectionScreenshot).toMatchSnapshot(
         `projects-section-${initialTheme}.png`,
         {
-          maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-          threshold: 0.5, // More tolerant threshold for animations
+          maxDiffPixelRatio: 0.1, // Reduce from 30% to 10% for better accuracy
+          threshold: 0.5, // Maintain tolerance for animations
+          maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
         }
       );
 
       // Toggle theme
       const newTheme = await toggleTheme(page);
-      await page.waitForTimeout(1500); // Wait for theme transition
+      await page.waitForTimeout(3000); // Wait for theme transition
 
       // Take screenshot in new theme
       const projectsSectionAfterToggle = await projectsSection.screenshot();
       await expect(projectsSectionAfterToggle).toMatchSnapshot(`projects-section-${newTheme}.png`, {
-        maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-        threshold: 0.5, // More tolerant threshold for animations
+        maxDiffPixelRatio: 0.1, // Reduce from 30% to 10% for better accuracy
+        threshold: 0.5,
+        maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
       });
     } else {
       console.log('Projects section not found, skipping test');
@@ -191,8 +220,8 @@ dynamicTest.describe('Visual Regression Tests - Dynamic Content @unstable-render
     'main page sections with ThreeJS animations should render correctly',
     async ({ page }) => {
       await page.goto('/');
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(1500); // Wait for any animations
+      await waitForPageStable(page);
+      await page.waitForTimeout(3000); // Wait for any animations
 
       // Get initial theme
       const initialTheme = await getCurrentTheme(page);
@@ -205,19 +234,21 @@ dynamicTest.describe('Visual Regression Tests - Dynamic Content @unstable-render
       // Take screenshot of main content in initial theme
       const mainContentScreenshot = await mainContent.screenshot();
       await expect(mainContentScreenshot).toMatchSnapshot(`main-content-${initialTheme}.png`, {
-        maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-        threshold: 0.5, // More tolerant threshold for animations
+        maxDiffPixelRatio: 0.1, // Consistent with other tests
+        threshold: 0.5,
+        maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
       });
 
       // Toggle theme
       const newTheme = await toggleTheme(page);
-      await page.waitForTimeout(1500); // Wait for theme transition
+      await page.waitForTimeout(3000); // Wait for theme transition
 
       // Take screenshot of main content in new theme
       const mainContentAfterToggle = await mainContent.screenshot();
       await expect(mainContentAfterToggle).toMatchSnapshot(`main-content-${newTheme}.png`, {
-        maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-        threshold: 0.5, // More tolerant threshold for animations
+        maxDiffPixelRatio: 0.1, // Consistent with other tests
+        threshold: 0.5,
+        maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
       });
     }
   );
@@ -240,14 +271,15 @@ dynamicTest.describe('Visual Regression Tests - Dynamic Content @unstable-render
 
         // Navigate to the page
         await page.goto('/');
-        await page.waitForLoadState('networkidle');
-        await page.waitForTimeout(1500); // Wait for any responsive adjustments
+        await waitForPageStable(page);
+        await page.waitForTimeout(3000); // Wait for any responsive adjustments
 
         // Take full page screenshot
         const fullPageScreenshot = await page.screenshot({ fullPage: true });
         await expect(fullPageScreenshot).toMatchSnapshot(`responsive-${bp.name}.png`, {
-          maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-          threshold: 0.5, // Very tolerant threshold for animations/ThreeJS
+          maxDiffPixelRatio: 0.1, // Consistent with other tests
+          threshold: 0.5,
+          maxDiffPixels: 1000, // Higher allowance for full page screenshots
         });
       }
     }
@@ -258,8 +290,8 @@ dynamicTest.describe('Visual Regression Tests - Dynamic Content @unstable-render
     'projects section with ThreeJS animations should maintain appearance',
     async ({ page }) => {
       await page.goto('/');
-      await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(1500); // Wait for animations
+      await waitForPageStable(page);
+      await page.waitForTimeout(3000); // Wait for animations
 
       // Look for a projects section or projects link
       const projectsSection = page.locator('section:has-text("Projects")');
@@ -273,22 +305,24 @@ dynamicTest.describe('Visual Regression Tests - Dynamic Content @unstable-render
         await expect(projectsSectionScreenshot).toMatchSnapshot(
           `projects-section-${initialTheme}.png`,
           {
-            maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-            threshold: 0.5, // More tolerant threshold for animations
+            maxDiffPixelRatio: 0.1, // Consistent with other tests
+            threshold: 0.5,
+            maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
           }
         );
 
         // Toggle theme
         const newTheme = await toggleTheme(page);
-        await page.waitForTimeout(1500); // Wait for theme transition
+        await page.waitForTimeout(3000); // Wait for theme transition
 
         // Take screenshot in new theme
         const projectsSectionAfterToggle = await projectsSection.screenshot();
         await expect(projectsSectionAfterToggle).toMatchSnapshot(
           `projects-section-${newTheme}.png`,
           {
-            maxDiffPixelRatio: 0.3, // Allow up to 30% of pixels to be different
-            threshold: 0.5, // More tolerant threshold for animations
+            maxDiffPixelRatio: 0.1, // Consistent with other tests
+            threshold: 0.5,
+            maxDiffPixels: 500, // Allow absolute pixel difference for resolution changes
           }
         );
       } else {

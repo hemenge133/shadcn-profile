@@ -30,6 +30,28 @@ export default function ThreeBackground() {
     // Track if the component is mounted
     let isMounted = true;
 
+    // Function to check WebGL availability
+    const isWebGLAvailable = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        return !!(
+          window.WebGLRenderingContext &&
+          (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+        );
+      } catch (e) {
+        console.warn('WebGL detection failed:', e);
+        return false;
+      }
+    };
+
+    // Skip ThreeJS rendering if WebGL isn't available (like in test environments)
+    if (!isWebGLAvailable()) {
+      console.warn('WebGL not available, skipping ThreeJS background');
+      return () => {
+        isMounted = false;
+      };
+    }
+
     // Detect browser for color correction
     const detectBrowser = () => {
       if (typeof window === 'undefined' || !window.navigator) {

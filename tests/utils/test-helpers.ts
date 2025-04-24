@@ -1,6 +1,35 @@
 import { Page } from '@playwright/test';
 
 /**
+ * Waits for page to be fully stable - DOM content, images, fonts loaded, and animations complete
+ * @param page The Playwright page object
+ */
+export async function waitForPageStable(page: Page): Promise<void> {
+  // Wait for network to be idle (no requests for 500ms)
+  await page.waitForLoadState('networkidle');
+
+  // Wait for fonts to load
+  await page.evaluate(() => document.fonts.ready);
+
+  // Wait for any remaining images to load
+  await page.evaluate(async () => {
+    const selectors = Array.from(document.querySelectorAll('img'));
+    await Promise.all(
+      selectors.map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.addEventListener('load', resolve);
+          img.addEventListener('error', resolve); // also handle broken images
+        });
+      })
+    );
+  });
+
+  // Wait a moment for any final rendering
+  await page.waitForTimeout(500);
+}
+
+/**
  * Toggles the theme between light and dark
  * @param page The Playwright page object
  * @returns Promise with the new theme ('light' or 'dark')
