@@ -31,7 +31,15 @@
     "test:desktop": "playwright test --project=chromium",
     "test:accessibility": "playwright test theme-toggle.spec.ts@'should be keyboard accessible' --project=chromium",
     "test:install-browsers": "playwright install chromium firefox webkit",
-    "test:debug": "playwright test --debug --project=chromium"
+    "test:debug": "playwright test --debug --project=chromium",
+    "snapshots": "scripts/manage-visual-snapshots.sh",
+    "snapshots:update": "scripts/manage-visual-snapshots.sh -u",
+    "snapshots:threejs": "scripts/manage-visual-snapshots.sh -t threejs-background",
+    "snapshots:update-threejs": "scripts/manage-visual-snapshots.sh -u -t threejs-background",
+    "snapshots:dynamic": "scripts/manage-visual-snapshots.sh -d",
+    "snapshots:update-dynamic": "scripts/manage-visual-snapshots.sh -u -d",
+    "snapshots:all": "scripts/manage-visual-snapshots.sh -a",
+    "snapshots:update-all": "scripts/manage-visual-snapshots.sh -u -a"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

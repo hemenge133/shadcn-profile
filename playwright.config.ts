@@ -14,11 +14,22 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     actionTimeout: 15000,
   },
+  // Visual comparison settings
+  expect: {
+    toMatchSnapshot: {
+      maxDiffPixels: 100, // Allow small differences (especially for animations)
+      threshold: 0.2, // More tolerant threshold for ThreeJS animations
+    },
+  },
+  // Only generate snapshots in chromium by default
+  snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}{ext}',
   projects: [
     // Desktop browsers
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      // This is our baseline browser for snapshots
+      snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}{ext}',
     },
     {
       name: 'firefox',

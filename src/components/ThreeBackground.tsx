@@ -223,7 +223,7 @@ export default function ThreeBackground() {
           velocities[i3 + 2] = (Math.random() - 0.5) * 0.01; // Slight z variation
 
           // Randomize initial opacity for staggered fade-in
-          opacityValues[i] = Math.random() * 0.1; // Start mostly transparent
+          opacityValues[i] = 0; // Start transparent
 
           // Add some brighter particles to represent main stars
           const particleType = Math.random();
@@ -326,7 +326,7 @@ export default function ThreeBackground() {
       let animationId: number;
 
       // Fade-in animation variables
-      const fadeInDuration = 5.0; // Slower fade-in over 10 seconds
+      const fadeInDuration = 5.0; // Slower fade-in over 5 seconds
       const targetOpacity = 0.7; // Final opacity value
       const startTime = clock.getElapsedTime();
       let isFadingIn = true;

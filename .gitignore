@@ -36,10 +36,11 @@ node_modules/
 
 # Task files
 tasks.json
-# tasks/
+tasks/
 
 # testing
 /coverage
+tests/__snapshots__/
 
 # next.js
 /.next/

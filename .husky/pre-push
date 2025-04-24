@@ -32,6 +32,18 @@ if [ "$BRANCH" = "master" ]; then
     echo "✅ ESLint check passed."
   fi
 
+  # Run Visual Regression Tests (stable tests only)
+  echo "Running Visual Regression Tests..."
+  npm run snapshots
+  VISUAL_TEST_EXIT_CODE=$?
+
+  if [ $VISUAL_TEST_EXIT_CODE -ne 0 ]; then
+    echo "❌ Visual regression tests failed. Please fix failing tests before pushing."
+    exit 1
+  else
+    echo "✅ Visual regression tests passed."
+  fi
+
   # Run Playwright tests on Chromium
   echo "Running Playwright tests on Chromium..."
   npm run test:chrome
