@@ -5,14 +5,14 @@
 @layer base {
   :root {
     /* Light mode theme - converted to OKLCH format */
-    --background: 96% 0 0;
+    --background: 100% 0 0;
     --foreground: 20% 0.01 240;
-    --card: 99% 0 0;
+    --card: 100% 0 0;
     --card-foreground: 20% 0.01 240;
-    --popover: 99% 0 0;
+    --popover: 100% 0 0;
     --popover-foreground: 20% 0.01 240;
     --primary: 25% 0.006 240;
-    --primary-foreground: 97% 0 0;
+    --primary-foreground: 100% 0 0;
     --secondary: 94% 0.005 240;
     --secondary-foreground: 25% 0.006 240;
     --muted: 94% 0.005 240;
@@ -29,13 +29,13 @@
 
   .dark {
     /* Dark mode theme - converted to OKLCH format */
-    --background: 14% 0.01 240;
-    --foreground: 85% 0 0;
-    --card: 16% 0.01 240;
-    --card-foreground: 85% 0 0;
-    --popover: 16% 0.01 240;
-    --popover-foreground: 85% 0 0;
-    --primary: 85% 0 0;
+    --background: 0% 0 0;
+    --foreground: 100% 0 0;
+    --card: 3% 0.01 240;
+    --card-foreground: 100% 0 0;
+    --popover: 3% 0.01 240;
+    --popover-foreground: 100% 0 0;
+    --primary: 100% 0 0;
     --primary-foreground: 20% 0.006 240;
     --secondary: 25% 0.004 240;
     --secondary-foreground: 85% 0 0;
@@ -63,6 +63,7 @@
     color-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: oklch(var(--background) / 0.5) !important;
   }
   
   /* Fix for cross-browser background color compatibility */
@@ -70,13 +71,15 @@
     background-color: oklch(var(--secondary) / 0.5) !important;
   }
   
-  /* Ensure alternating section backgrounds */
-  section#skills,
-  section#about,
-  section#projects {
-    background-color: oklch(var(--secondary) / 0.5);
+  .bg-background\/50 {
+    background-color: oklch(var(--background) / 0.95) !important;
   }
-
+  
+  /* Dark theme specific override */
+  .dark .bg-background\/50 {
+    background-color: oklch(var(--background) / 0.5) !important;
+  }
+  
   /* Ensure consistent color handling across browsers */
   canvas {
     color-rendering: optimizeSpeed;

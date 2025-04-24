@@ -98,11 +98,11 @@ export default function ThreeBackground() {
         renderer.current.setSize(width, height);
       }
 
-      // SIMPLIFY: Force consistent black background like the 404 page
+      // Update renderer settings based on theme
       if (renderer.current) {
         renderer.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        // Force pure black background, no transparency
-        renderer.current.setClearColor(0x000000, 1);
+        // Use transparent background
+        renderer.current.setClearColor(0x000000, 0);
         // Use a valid color space - SRGBColorSpace is safer than NoColorSpace
         renderer.current.outputColorSpace = THREE.SRGBColorSpace;
         renderer.current.toneMapping = THREE.NoToneMapping;

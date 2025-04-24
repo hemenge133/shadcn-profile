@@ -26,8 +26,8 @@ export default function Home() {
       {/* Render the background only on client side */}
       {isMounted && <DynamicThreeBackground />}
 
-      {/* Add a fixed black background div that's consistent across browsers */}
-      <div className="fixed inset-0 -z-20 bg-black"></div>
+      {/* Remove the fixed black background div that was covering the ThreeJS particles */}
+      <div className="fixed inset-0 -z-20 bg-transparent"></div>
       <div className="relative z-10">
         <Hero />
         <Projects />

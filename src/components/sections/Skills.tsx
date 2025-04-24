@@ -1,7 +1,7 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button'; // Using buttons for filtering
-import { motion } from 'motion/react';
+import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import dynamic from 'next/dynamic';
 
 // Define a structure for individual skills
@@ -67,42 +67,53 @@ const allSkills: Skill[] = [
 const rotationValues = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
 
 // Create a client-side only component for the skills badges to avoid hydration issues
-const SkillsBadges = ({ filteredSkills }: { filteredSkills: Skill[] }) => {
+const SkillsBadges = ({
+  filteredSkills,
+  isFilterChanging,
+}: {
+  filteredSkills: Skill[];
+  isFilterChanging: boolean;
+}) => {
   // Function to get deterministic rotation based on index
   const getRotation = (index: number) => {
     return rotationValues[index % rotationValues.length];
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.3 }}
-      className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto"
-    >
-      {filteredSkills.map((skill, index) => (
-        <motion.div
-          key={skill.name + skill.category}
-          initial={{ opacity: 0, rotate: getRotation(index), scale: 0.9 }}
-          whileInView={{ opacity: 1, rotate: 0, scale: 1 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{
-            duration: 0.5,
-            delay: 0.1 + (index % 10) * 0.05,
-            type: 'spring',
-            damping: 8,
-          }}
-        >
-          <Badge
-            variant="secondary"
-            className="text-sm px-3 py-1 transition-all duration-300 ease-in-out"
-          >
-            {skill.name}
-          </Badge>
-        </motion.div>
-      ))}
-    </motion.div>
+    <LayoutGroup id="skills-grid">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto min-h-[150px]"
+      >
+        <AnimatePresence mode="popLayout">
+          {!isFilterChanging &&
+            filteredSkills.map((skill, index) => (
+              <motion.div
+                key={`skill-${skill.name}-${skill.category}`}
+                initial={{ opacity: 0, rotate: getRotation(index), scale: 0.9 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.15 } }}
+                layout="position"
+                transition={{
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 25,
+                  mass: 0.8,
+                }}
+              >
+                <Badge
+                  variant="secondary"
+                  className="text-sm px-3 py-1 transition-all duration-300 ease-in-out"
+                >
+                  {skill.name}
+                </Badge>
+              </motion.div>
+            ))}
+        </AnimatePresence>
+      </motion.div>
+    </LayoutGroup>
   );
 };
 
@@ -113,6 +124,8 @@ const ClientSkillsBadges = dynamic(() => Promise.resolve(SkillsBadges), {
 
 const Skills = () => {
   const [filter, setFilter] = useState<string>('All');
+  const [isFilterChanging, setIsFilterChanging] = useState<boolean>(false);
+  const [activeFilter, setActiveFilter] = useState<string>('All');
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const componentId = useId();
@@ -122,10 +135,26 @@ const Skills = () => {
 
   // Filter skills based on the selected category
   const filteredSkills =
-    filter === 'All' ? allSkills : allSkills.filter((skill) => skill.category === filter);
+    activeFilter === 'All'
+      ? allSkills
+      : allSkills.filter((skill) => skill.category === activeFilter);
+
+  // Debounced filter change handler
+  const handleFilterChange = (category: string) => {
+    if (category === activeFilter) return; // Don't reapply the same filter
+
+    setIsFilterChanging(true);
+    setFilter(category);
+
+    // Use a timeout to ensure animations complete before changing data
+    setTimeout(() => {
+      setActiveFilter(category);
+      setIsFilterChanging(false);
+    }, 50);
+  };
 
   return (
-    <section id="skills" className="py-16 bg-secondary/50">
+    <section id="skills" className="py-16 bg-background/50">
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, rotate: -3 }}
@@ -160,7 +189,8 @@ const Skills = () => {
             >
               <Button
                 variant={filter === category ? 'default' : 'outline'}
-                onClick={() => setFilter(category)}
+                onClick={() => handleFilterChange(category)}
+                disabled={isFilterChanging}
                 size="sm" // Make buttons slightly smaller
               >
                 {category}
@@ -170,7 +200,7 @@ const Skills = () => {
         </motion.div>
 
         {/* Client-side rendered skills badges */}
-        <ClientSkillsBadges filteredSkills={filteredSkills} />
+        <ClientSkillsBadges filteredSkills={filteredSkills} isFilterChanging={isFilterChanging} />
       </div>
     </section>
   );

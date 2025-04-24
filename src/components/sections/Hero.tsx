@@ -34,14 +34,14 @@ const Hero = () => {
     <section
       id="hero"
       aria-label="Introduction"
-      className="relative px-4 pt-8 pb-8 md:pt-16 md:pb-16 bg-background text-foreground"
+      className="relative px-4 pt-8 pb-8 md:pt-16 md:pb-16 bg-background/50 text-foreground"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-        <Card className="w-full max-w-4xl mx-auto p-4 md:p-8 shadow-lg backdrop-blur-sm bg-card/80 relative">
+        <Card className="w-full max-w-4xl mx-auto p-4 md:p-8 shadow-lg backdrop-blur-lg bg-card/80 relative">
           <CardContent className="flex flex-col md:flex-row items-center gap-8 pt-4 pb-4 md:pt-0 md:pb-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
