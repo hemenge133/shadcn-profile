@@ -1,4 +1,4 @@
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId} from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button'; // Using buttons for filtering
 import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
