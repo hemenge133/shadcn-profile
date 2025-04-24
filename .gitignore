@@ -40,7 +40,6 @@ tasks/
 
 # testing
 /coverage
-tests/__snapshots__/
 
 # next.js
 /.next/
