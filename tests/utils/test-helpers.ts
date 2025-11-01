@@ -124,3 +124,45 @@ export async function toggleThemeFirefox(page: Page): Promise<'light' | 'dark'> 
 
   return newTheme;
 }
+
+export async function getTheme(page: Page): Promise<'light' | 'dark'> {
+  return page.evaluate(() => {
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  });
+}
+
+export async function setTheme(page: Page, theme: 'light' | 'dark'): Promise<void> {
+  await page.evaluate((targetTheme) => {
+    // Get current theme
+    const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    
+    // Only change if needed
+    if (currentTheme !== targetTheme) {
+      // Try to find theme toggle button
+      const themeButton = document.querySelector('button[aria-label*="theme" i]');
+      if (themeButton instanceof HTMLButtonElement) {
+        themeButton.click();
+      } else {
+        // Fallback: Directly modify theme
+        if (targetTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+        
+        // Dispatch storage event to notify any listeners
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: 'theme',
+          newValue: targetTheme,
+          oldValue: currentTheme,
+          storageArea: localStorage
+        }));
+      }
+    }
+  }, theme);
+  
+  // Wait for theme change to take effect
+  await page.waitForTimeout(1000);
+}

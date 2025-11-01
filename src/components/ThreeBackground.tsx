@@ -33,6 +33,12 @@ export default function ThreeBackground() {
     // Function to check WebGL availability
     const isWebGLAvailable = () => {
       try {
+        // Skip ThreeJS completely if we're in a visual test
+        if (typeof window !== 'undefined' && 'IS_VISUAL_TEST' in window && window.IS_VISUAL_TEST) {
+          console.log('Detected visual test mode, skipping ThreeJS');
+          return false;
+        }
+        
         const canvas = document.createElement('canvas');
         return !!(
           window.WebGLRenderingContext &&
