@@ -4,97 +4,75 @@
 
 @layer base {
   :root {
-    /* Light mode theme - converted to OKLCH format */
     --background: 100% 0 0;
-    --foreground: 20% 0.01 240;
+    --foreground: 10% 0 0;
     --card: 100% 0 0;
-    --card-foreground: 20% 0.01 240;
+    --card-foreground: 10% 0 0;
     --popover: 100% 0 0;
-    --popover-foreground: 20% 0.01 240;
-    --primary: 25% 0.006 240;
+    --popover-foreground: 10% 0 0;
+    --primary: 10% 0 0;
     --primary-foreground: 100% 0 0;
-    --secondary: 94% 0.005 240;
-    --secondary-foreground: 25% 0.006 240;
-    --muted: 94% 0.005 240;
-    --muted-foreground: 50% 0.004 240;
-    --accent: 94% 0.005 240;
-    --accent-foreground: 25% 0.006 240;
+    --secondary: 96% 0 0;
+    --secondary-foreground: 10% 0 0;
+    --muted: 96% 0 0;
+    --muted-foreground: 45% 0 0;
+    --accent: 96% 0 0;
+    --accent-foreground: 10% 0 0;
     --destructive: 65% 0.15 0;
     --destructive-foreground: 97% 0 0;
-    --border: 88% 0.006 240;
-    --input: 88% 0.006 240;
-    --ring: 25% 0.006 240;
+    --border: 91% 0 0;
+    --input: 91% 0 0;
+    --ring: 10% 0 0;
     --radius: 0.5rem;
   }
 
   .dark {
-    /* Dark mode theme - converted to OKLCH format */
-    --background: 0% 0 0;
-    --foreground: 100% 0 0;
-    --card: 3% 0.01 240;
-    --card-foreground: 100% 0 0;
-    --popover: 3% 0.01 240;
-    --popover-foreground: 100% 0 0;
-    --primary: 100% 0 0;
-    --primary-foreground: 20% 0.006 240;
-    --secondary: 25% 0.004 240;
-    --secondary-foreground: 85% 0 0;
-    --muted: 25% 0.004 240;
-    --muted-foreground: 75% 0.005 240;
-    --accent: 25% 0.004 240;
-    --accent-foreground: 85% 0 0;
+    --background: 6% 0 0;
+    --foreground: 95% 0 0;
+    --card: 10% 0 0;
+    --card-foreground: 95% 0 0;
+    --popover: 10% 0 0;
+    --popover-foreground: 95% 0 0;
+    --primary: 95% 0 0;
+    --primary-foreground: 6% 0 0;
+    --secondary: 16% 0 0;
+    --secondary-foreground: 95% 0 0;
+    --muted: 16% 0 0;
+    --muted-foreground: 55% 0 0;
+    --accent: 16% 0 0;
+    --accent-foreground: 95% 0 0;
     --destructive: 45% 0.10 0;
     --destructive-foreground: 85% 0 0;
-    --border: 25% 0.004 240;
-    --input: 25% 0.004 240;
-    --ring: 75% 0.005 240;
+    --border: 22% 0 0;
+    --input: 22% 0 0;
+    --ring: 55% 0 0;
   }
 
   * {
     @apply border-solid border-0;
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
+    transition-duration: 150ms;
   }
 
   html {
     scroll-behavior: smooth;
-    /* Force color-profile handling to be consistent */
-    color-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: oklch(var(--background) / 0.5) !important;
   }
-  
-  /* Fix for cross-browser background color compatibility */
-  .bg-secondary\/50 {
-    background-color: oklch(var(--secondary) / 0.5) !important;
-  }
-  
-  .bg-background\/50 {
-    background-color: oklch(var(--background) / 0.95) !important;
-  }
-  
-  /* Dark theme specific override */
-  .dark .bg-background\/50 {
-    background-color: oklch(var(--background) / 0.5) !important;
-  }
-  
-  /* Ensure consistent color handling across browsers */
-  canvas {
-    color-rendering: optimizeSpeed;
+
+  body {
+    background-color: oklch(var(--background));
+    color: oklch(var(--foreground));
   }
 }
 
-/* Additional helper classes for debugging */
-.debug-border {
-  border: 1px solid red;
-}
-
-/* Cross-browser color profile handling */
-@supports (color-gamut: srgb) {
-  :root {
-    color-profile: srgb;
-    color-rendering: optimizeQuality;
-  }
+/* Dot grid background pattern */
+.dot-pattern {
+  background-image: radial-gradient(
+    circle,
+    oklch(var(--foreground) / 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
 }

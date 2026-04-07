@@ -1,14 +1,14 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { SiSalesforce } from 'react-icons/si';
 import { FaAws, FaLinkedin } from 'react-icons/fa';
-import { Mail, Check, ChevronDown } from 'lucide-react';
+import { Mail, Check, ArrowDown } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const Hero = () => {
-  // Placeholder data - replace with actual content
   const name = 'Hayden Menge';
   const title = 'Software Engineer';
   const intro =
@@ -34,102 +34,131 @@ const Hero = () => {
     <section
       id="hero"
       aria-label="Introduction"
-      className="relative px-4 pt-8 pb-8 md:pt-16 md:pb-16 bg-background/50 text-foreground"
+      className="relative px-4 pt-24 pb-16 md:pt-32 md:pb-24"
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-      >
-        <Card className="w-full max-w-4xl mx-auto p-4 md:p-8 shadow-lg backdrop-blur-lg bg-card/80 relative">
-          <CardContent className="flex flex-col md:flex-row items-center gap-8 pt-4 pb-4 md:pt-0 md:pb-0">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="relative aspect-square w-32 md:w-56 overflow-hidden rounded-full border-4 border-primary"
-            >
+      <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          {/* Avatar with grayscale → color hover */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="group relative shrink-0"
+          >
+            <div className="relative w-32 md:w-44 aspect-square rounded-full overflow-hidden border-2 border-border group-hover:border-foreground/30 transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:group-hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]">
               <Image
                 src={avatarSrc}
                 alt={avatarAlt}
-                width={224}
-                height={224}
-                sizes="(max-width: 768px) 128px, 224px"
+                width={176}
+                height={176}
                 priority
                 unoptimized
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
               />
-            </motion.div>
-            <motion.div
+            </div>
+          </motion.div>
+
+          {/* Text content */}
+          <div className="text-center md:text-left flex-1">
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="text-left w-full"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl md:text-7xl font-bold tracking-[-0.04em]"
             >
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">{name}</h1>
-              <div className="flex items-center gap-3 mb-4">
-                <p className="text-xl md:text-2xl text-muted-foreground">{title}</p>
-                <SiSalesforce
-                  aria-label="Current Employer: Salesforce"
-                  className="h-6 w-6 md:h-7 md:w-7 text-blue-500"
-                />
-                <FaAws
-                  aria-label="Previous Employer: Amazon Web Services"
-                  className="h-6 w-6 md:h-7 md:w-7 text-orange-500"
-                />
-              </div>
-              <p className="text-lg mb-6">{intro}</p>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="flex items-center gap-3 mt-2"
-              >
-                <Button
-                  size="default"
-                  className="shadow-md h-9 px-3 sm:px-4 gap-2"
-                  onClick={copyToClipboard}
-                  aria-label={copied ? 'Email copied to clipboard' : 'Copy email to clipboard'}
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-4 w-4" />
-                      <span>Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Mail className="h-4 w-4" />
-                      <span>Email</span>
-                    </>
-                  )}
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="default"
-                  className="shadow-sm h-9 px-3 sm:px-4"
-                >
-                  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
-                    <FaLinkedin className="mr-2 h-4 w-4" />
-                    LinkedIn
-                  </a>
-                </Button>
-              </motion.div>
-            </motion.div>
-          </CardContent>
+              {name}
+            </motion.h1>
 
-          {/* Down arrow - visible only on mobile */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="absolute bottom-2 right-2 md:hidden animate-bounce"
-          >
-            <ChevronDown className="w-5 h-5 text-muted-foreground/70" />
-          </motion.div>
-        </Card>
+            {/* Animated line under name */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="h-px bg-foreground/15 mt-4 mb-4 origin-left hidden md:block"
+              style={{ maxWidth: '120px' }}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex items-center gap-3 mt-3 md:mt-0 justify-center md:justify-start"
+            >
+              <p className="text-lg text-muted-foreground font-medium">{title}</p>
+              <span className="text-border">|</span>
+              <SiSalesforce
+                aria-label="Current Employer: Salesforce"
+                className="h-5 w-5 text-muted-foreground/40 hover:text-foreground transition-colors duration-300 cursor-default"
+              />
+              <FaAws
+                aria-label="Previous Employer: Amazon Web Services"
+                className="h-5 w-5 text-muted-foreground/40 hover:text-foreground transition-colors duration-300 cursor-default"
+              />
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-muted-foreground mt-4 max-w-lg leading-relaxed mx-auto md:mx-0"
+            >
+              {intro}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center gap-3 mt-6 justify-center md:justify-start"
+            >
+              <Button
+                size="default"
+                className="gap-2 group/btn hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-200"
+                onClick={copyToClipboard}
+                aria-label={copied ? 'Email copied to clipboard' : 'Copy email to clipboard'}
+              >
+                {copied ? (
+                  <>
+                    <Check className="h-4 w-4" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail className="h-4 w-4 group-hover/btn:rotate-[-6deg] transition-transform duration-300" />
+                    <span>Email</span>
+                  </>
+                )}
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="default"
+                className="group/btn hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-200"
+              >
+                <a href={linkedinUrl} target="_blank" rel="noopener noreferrer">
+                  <FaLinkedin className="mr-2 h-4 w-4 group-hover/btn:scale-110 transition-transform duration-300" />
+                  LinkedIn
+                </a>
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:block"
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ArrowDown className="h-4 w-4 text-muted-foreground/40" />
+        </motion.div>
       </motion.div>
-      {/* Optional: Add subtle background elements/animations here */}
     </section>
   );
 };

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { Button } from '@/components/ui/button';
 
 const navItems = [
   { id: 'projects', label: 'Projects' },
@@ -28,30 +27,30 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-transparent backdrop-blur-sm">
-      <div className="container px-4 flex h-16 items-center justify-between mx-auto">
-        {/* Left spacer - keep same width as right side for symmetry */}
-        <div className="w-14 md:w-20"></div>
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/50">
+      <div className="container px-4 flex h-14 items-center justify-between mx-auto">
+        {/* Left spacer */}
+        <div className="w-10 md:w-20" />
 
         {/* Center navigation */}
         <nav className="flex-shrink-0 flex justify-center">
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-8">
             {navItems.map((item) => (
               <li key={item.id}>
-                <Button
-                  size="sm"
+                <button
                   onClick={() => handleScroll(item.id)}
-                  className="transition-colors px-3 py-1 h-9 text-base font-medium rounded-md bg-primary text-primary-foreground hover:bg-secondary hover:text-secondary-foreground"
+                  className="relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 py-1 group"
                 >
                   {item.label}
-                </Button>
+                  <span className="absolute bottom-0 left-0 w-full h-px bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                </button>
               </li>
             ))}
           </ul>
         </nav>
 
-        {/* Right section with fixed width and alignment for theme toggle */}
-        <div className="w-14 md:w-20 flex justify-end">
+        {/* Right section with theme toggle */}
+        <div className="w-10 md:w-20 flex justify-end">
           <ThemeToggle />
         </div>
       </div>

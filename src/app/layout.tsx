@@ -64,8 +64,6 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="color-scheme" content="light dark" />
-        <meta name="color-profile" content="sRGB" />
-        <meta name="color-gamut" content="srgb" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
@@ -76,6 +74,7 @@ export default function RootLayout({
           enableSystem
           storageKey="theme-preference"
         >
+          <div className="dot-pattern fixed inset-0 -z-10 pointer-events-none" />
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:p-2 focus:border"
@@ -86,15 +85,10 @@ export default function RootLayout({
           <main id="main-content" className="flex-1">
             {children}
           </main>
-          <footer className="py-6 border-t border-border/40 bg-background/95">
-            <div className="container mx-auto px-4 flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-                  N
-                </div>
-              </div>
+          <footer className="py-8 border-t border-border/50">
+            <div className="container mx-auto px-4 text-center">
               <p className="text-sm text-muted-foreground">
-                © {new Date().getFullYear()} Hayden Menge. All rights reserved.
+                &copy; {new Date().getFullYear()} Hayden Menge
               </p>
             </div>
           </footer>

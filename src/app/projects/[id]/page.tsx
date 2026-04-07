@@ -63,7 +63,7 @@ const ProjectDetailsPage: React.FC<ProjectDetailsPageProps> = ({ params }) => {
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-8">
         {project.tags.map((tag) => (
-          <Badge key={tag} variant="secondary">
+          <Badge key={tag} variant="outline" className="text-xs font-normal">
             {tag}
           </Badge>
         ))}
