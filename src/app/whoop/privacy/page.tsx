@@ -19,9 +19,8 @@ export default function PrivacyPolicy() {
           solely by its author. It is not publicly distributed.
         </p>
         <p>
-          It accesses only the author&apos;s own WHOOP account data — through
-          WHOOP&apos;s official API, with the author&apos;s authorization — and
-          heart-rate data from the author&apos;s own WHOOP band over Bluetooth.
+          It accesses only the author&apos;s own WHOOP account data, through
+          WHOOP&apos;s official API and with the author&apos;s authorization.
         </p>
         <p>
           All data is stored locally on the author&apos;s device. It is never
