@@ -15,26 +15,25 @@ export default function PrivacyPolicy() {
         </p>
 
         <p>
-          MegaMenge is a personal, non-commercial application developed and used
-          solely by its author. It is not publicly distributed.
+          MegaMenge is a personal, non-commercial application developed and used solely by its
+          author. It is not publicly distributed.
         </p>
         <p>
-          It accesses only the author&apos;s own WHOOP account data, through
-          WHOOP&apos;s official API and with the author&apos;s authorization.
+          It accesses only the author&apos;s own WHOOP account data, through WHOOP&apos;s official
+          API and with the author&apos;s authorization.
         </p>
         <p>
-          All data is stored locally on the author&apos;s device. It is never
-          shared with, sold to, or disclosed to any third party, and no data from
-          any other person is collected.
+          All data is stored locally on the author&apos;s device. It is never shared with, sold to,
+          or disclosed to any third party, and no data from any other person is collected.
         </p>
         <p>
-          Access can be revoked at any time from WHOOP account settings, and all
-          locally stored data is removed by deleting the application.
+          Access can be revoked at any time from WHOOP account settings, and all locally stored data
+          is removed by deleting the application.
         </p>
 
         <h2>Contact</h2>
         <p>
-          <a href="mailto:haydenmenge@gmail.com">haydenmenge@gmail.com</a>
+          <a href="mailto:me@haydenmenge.com">me@haydenmenge.com</a>
         </p>
       </article>
     </main>
